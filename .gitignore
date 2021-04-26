@@ -1,0 +1,8 @@
+# dependencies
+*/node_modules
+*/.pnp
+*.pnp.js
+*pass.txt
+
+# Configuracion de WebStorm
+*.idea
