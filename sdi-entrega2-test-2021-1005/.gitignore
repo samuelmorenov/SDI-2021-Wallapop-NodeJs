@@ -1,0 +1,7 @@
+target/
+!**/src/test/**
+
+.apt_generated
+.factorypath
+.metadata
+.settings
