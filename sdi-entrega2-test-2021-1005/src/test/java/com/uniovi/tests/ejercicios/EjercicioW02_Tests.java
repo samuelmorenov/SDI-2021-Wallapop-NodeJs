@@ -10,7 +10,7 @@ import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class Ejercicio02_Tests extends BaseTests {
+public class EjercicioW02_Tests extends BaseTests {
 	
 	private static final String loginCorrecto = "Los usuarios que actualmente figuran en el sistema son los siguientes:";
 	private static final String loginIncorrecto = "La combinacion usuario-contraseña es incorrecta.";

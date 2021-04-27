@@ -10,7 +10,7 @@ import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.formularios.PO_RegisterView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class Ejercicio01_Tests extends BaseTests {
+public class EjercicioW01_Tests extends BaseTests {
 	
 	private static final String usuarioCorrecto = "Nuevo usuario registrado.";
 	private static final String contraseniaErronea = "Las contraseñas no coinciden.";
