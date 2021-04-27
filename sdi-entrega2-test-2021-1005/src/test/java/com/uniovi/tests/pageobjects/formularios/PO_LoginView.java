@@ -10,7 +10,7 @@ import com.uniovi.tests.pageobjects.config.PO_Config;
 public class PO_LoginView extends PO_Config {
 	static public void fillForm(String emailp, String passwordp) {
 
-		WebElement email = driver.findElement(By.name("username"));
+		WebElement email = driver.findElement(By.name("email"));
 		email.click();
 		email.clear();
 		email.sendKeys(emailp);

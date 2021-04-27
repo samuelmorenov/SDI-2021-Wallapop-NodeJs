@@ -11,6 +11,10 @@ import com.uniovi.tests.pageobjects.formularios.PO_RegisterView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Ejercicio01_Tests extends BaseTests {
+	
+	private static final String usuarioCorrecto = "Nuevo usuario registrado.";
+	private static final String contraseniaErronea = "Las contraseñas no coinciden.";
+	private static final String emailRepetido = "Ese email ya existe.";
 
 	/** Registro de Usuario con datos válidos. */
 	@Test
@@ -19,7 +23,7 @@ public class Ejercicio01_Tests extends BaseTests {
 		PO_RegisterView.fillForm(UserList.usuariosTest(0).email, UserList.usuariosTest(0).name,
 				UserList.usuariosTest(0).lastName, UserList.usuariosTest(0).password,
 				UserList.usuariosTest(0).password);
-		PO_View.checkElement("text", "Nuevo usuario registrado.");
+		PO_View.checkElement("text", usuarioCorrecto);
 	}
 
 	/** Registro de Usuario con datos inválidos: email vacío */
@@ -28,7 +32,7 @@ public class Ejercicio01_Tests extends BaseTests {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm("", UserList.usuariosTest(0).name, UserList.usuariosTest(0).lastName,
 				UserList.usuariosTest(0).password, UserList.usuariosTest(0).password);
-		PO_View.checkNoElement("text", "Nuevo usuario registrado.");
+		PO_View.checkNoElement("text", usuarioCorrecto);
 	}
 
 	/** Registro de Usuario con datos inválidos: nombre vacío */
@@ -37,7 +41,7 @@ public class Ejercicio01_Tests extends BaseTests {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm("correo_prueba@email.com", "", UserList.usuariosTest(0).lastName,
 				UserList.usuariosTest(0).password, UserList.usuariosTest(0).password);
-		PO_View.checkNoElement("text", "Nuevo usuario registrado.");
+		PO_View.checkNoElement("text", usuarioCorrecto);
 	}
 
 	/** Registro de Usuario con datos inválidos: apellidos vacío */
@@ -46,7 +50,7 @@ public class Ejercicio01_Tests extends BaseTests {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm("correo_prueba@email.com", UserList.usuariosTest(0).name, "",
 				UserList.usuariosTest(0).password, UserList.usuariosTest(0).password);
-		PO_View.checkNoElement("text", "Nuevo usuario registrado.");
+		PO_View.checkNoElement("text", usuarioCorrecto);
 	}
 
 	/**
@@ -58,7 +62,7 @@ public class Ejercicio01_Tests extends BaseTests {
 		PO_RegisterView.fillForm("correo_prueba@email.com", UserList.usuariosTest(0).name,
 				UserList.usuariosTest(0).lastName, UserList.usuariosTest(0).password,
 				UserList.usuariosTest(0).password + "e");
-		PO_View.checkElement("text", "Las contraseñas no coinciden.");
+		PO_View.checkElement("text", contraseniaErronea);
 
 	}
 
@@ -69,7 +73,7 @@ public class Ejercicio01_Tests extends BaseTests {
 		PO_RegisterView.fillForm(UserList.usuarios(0).email, UserList.usuariosTest(0).name,
 				UserList.usuariosTest(0).lastName, UserList.usuariosTest(0).password,
 				UserList.usuariosTest(0).password);
-		PO_View.checkElement("text", "Ese email ya existe. ");
+		PO_View.checkElement("text", emailRepetido);
 	}
 
 }
