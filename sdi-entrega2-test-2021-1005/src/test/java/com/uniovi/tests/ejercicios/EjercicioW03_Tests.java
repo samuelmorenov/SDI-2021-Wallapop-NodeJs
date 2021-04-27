@@ -1,13 +1,17 @@
 package com.uniovi.tests.ejercicios;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EjercicioW03_Tests extends BaseTests {
+	
+	private static final String login = "Identificación de usuario";
 
 	/**
 	 * Hacer click en la opción de salir de sesión y comprobar que se redirige a la
@@ -15,10 +19,9 @@ public class EjercicioW03_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_09() {
-		assertTrue(false);
-		//PO_LoginView.loginUser0();
-		//PO_NavView.clickOption("logout", "class", "btn btn-primary");
-		//PO_View.checkKey("login.message", PO_Properties.getSPANISH());
+		PO_LoginView.loginUser0();
+		PO_NavView.clickOption("logout", "class", "btn btn-primary");
+		PO_View.checkElement("text", login);
 	}
 
 	/**
@@ -27,10 +30,9 @@ public class EjercicioW03_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_10() {
-		assertTrue(false);
-		//PO_LoginView.loginUser0();
-		//PO_NavView.clickOption("logout", "class", "btn btn-primary");
-		//PO_View.checkNoKey("logout.message", PO_Properties.getSPANISH());
+		PO_LoginView.loginUser0();
+		PO_NavView.clickOption("logout", "class", "btn btn-primary");
+		PO_View.checkNoElement("text", "checkElement");
 	}
 
 }
