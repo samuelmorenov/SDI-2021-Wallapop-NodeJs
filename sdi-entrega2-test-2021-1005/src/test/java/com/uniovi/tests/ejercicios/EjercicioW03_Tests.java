@@ -10,8 +10,6 @@ import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EjercicioW03_Tests extends BaseTests {
-	
-	private static final String login = "Identificación de usuario";
 
 	/**
 	 * Hacer click en la opción de salir de sesión y comprobar que se redirige a la
@@ -21,7 +19,7 @@ public class EjercicioW03_Tests extends BaseTests {
 	public void Prueba_09() {
 		PO_LoginView.loginUser0();
 		PO_NavView.clickOption("logout", "class", "btn btn-primary");
-		PO_View.checkElement("text", login);
+		PO_View.checkElement("text", login_titulo);
 	}
 
 	/**

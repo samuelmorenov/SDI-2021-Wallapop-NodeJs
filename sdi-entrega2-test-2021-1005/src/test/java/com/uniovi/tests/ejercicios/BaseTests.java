@@ -11,6 +11,18 @@ public class BaseTests {
 	static WebDriver driver = DriverSingleton.getDriver();
 
 	protected static String URL = "https://localhost:8081";
+	
+	//Parametros de busqueda de textos
+	protected static final String signup_usuarioCorrecto = "Nuevo usuario registrado.";
+	protected static final String signup_contraseniaErronea = "Las contraseñas no coinciden.";
+	protected static final String signup_emailRepetido = "Ese email ya existe.";
+	protected static final String login_incorrecto = "La combinacion usuario-contraseña es incorrecta.";
+	protected static final String login_titulo = "Identificación de usuario";
+	protected static final String profile_titulo = "Bienvenido de vuelta";
+	
+	
+	
+	//Bienvenido de vuelta
 
 	// Antes de cada prueba se navega al URL home de la aplicaciónn
 	@Before
