@@ -24,22 +24,67 @@
             <img src="/img/student-48.png" alt="logo"/>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-            {% if loggedUser %}
+            <!-- Parte izquierda del navegador -->
+            {% if loggedUser != null %}
             <ul class="nav navbar-nav">
-                <li><a href="/">Inicio</a></li>
-                <li id="users-menu" class="dropdown">
+
+                <!-- Perfil de usuario -->
+                <li><a href="/user/profile">Tu Perfil</a></li>
+
+                <!-- Gestion de usuarios -->
+                {% if loggedUser.role == "ROLE_ADMIN" %}
+                <li id="user-list">
+                    <a href="/user/list">Ver Usuarios</a>
+                </li>
+                {% endif %}
+
+                <!-- Gestion de ofertas -->
+                {% if loggedUser.role == "ROLE_USER" %}
+                <li id="offer-menu" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Usuarios
+                        Ofertas
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <!-- <li><a href="/user/add">Agregar Usuario</a></li> -->
-                        <li><a href="/users">Ver Usuarios</a></li>
-                    </ul></li>
+                        <li>
+                            <a href="/offer/post">Publicar Oferta</a>
+                        </li>
+                        <li>
+                            <a href="/offer/all">Todas las Ofertas</a>
+                        </li>
+                        <li>
+                            <a href="/offer/own">Ofertas Publicadas</a>
+                        </li>
+                        <li>
+                            <a href="/offer/purchased">Ofertas Compradas</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
             </ul>
             {% endif %}
+
+            <!-- Parte derecha del navegador -->
             <ul class="nav navbar-nav navbar-right">
-                {% if !loggedUser %}
+                <!-- Info del usuario -->
+                {% if loggedUser != null%}
+                <li>
+                    <a>
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span> {{ loggedUser.email }} </span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span class="glyphicon glyphicon-piggy-bank"></span>
+                        <span type="number" step=.01>{{ loggedUser.money }}</span>
+                    </a>
+                </li>
+
+                {% endif %}
+
+                <!-- Opciones de logueo -->
+                {% if loggedUser == null%}
                 <li>
                     <a href="/signup">
                         Registrate
@@ -53,7 +98,7 @@
                     </a>
                 </li>
                 {% endif %}
-                {% if loggedUser %}
+                {% if loggedUser != null%}
                 <li>
                     <a href="/logout">
                         Desconectarse

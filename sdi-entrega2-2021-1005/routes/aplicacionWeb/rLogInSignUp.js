@@ -47,12 +47,12 @@ module.exports = function (app, swig, gestorBD) {
     });
 
     app.get("/signup", function (req, res) {
-        let respuesta = swig.renderFile('views/signup.html', {loggedUser: req.session.usuario != null});
+        let respuesta = swig.renderFile('views/signup.html', {loggedUser: req.session.usuario});
         res.send(respuesta);
     });
 
     app.get("/login", function (req, res) {
-        let respuesta = swig.renderFile('views/login.html', {loggedUser: req.session.usuario != null});
+        let respuesta = swig.renderFile('views/login.html', {loggedUser: req.session.usuario});
         res.send(respuesta);
     });
 
@@ -80,12 +80,12 @@ module.exports = function (app, swig, gestorBD) {
 
     app.get('/logout', function (req, res) {
         req.session.usuario = null;
-        let respuesta = swig.renderFile('views/login.html', {loggedUser: req.session.usuario != null});
+        let respuesta = swig.renderFile('views/login.html', {loggedUser: req.session.usuario});
         res.send(respuesta);
     });
 
     app.get("/index", function (req, res) {
-        let respuesta = swig.renderFile('views/index.html', {loggedUser: req.session.usuario != null});
+        let respuesta = swig.renderFile('views/index.html', {loggedUser: req.session.usuario});
         res.send(respuesta);
     });
 
@@ -93,7 +93,7 @@ module.exports = function (app, swig, gestorBD) {
         let texto = req.session.error;
         req.session.error = null;
         let respuesta = swig.renderFile('views/error.html', {
-            loggedUser: req.session.usuario != null,
+            loggedUser: req.session.usuario,
             texto: texto
         });
         res.send(respuesta);

@@ -39,10 +39,10 @@ module.exports = function (app, swig, gestorBD) {
                 
                 let respuesta = swig.renderFile('views/user/list.html',
                     {
+                        loggedUser: req.session.usuario,
                         users: users,
                         paginas: paginas,
-                        actual: pg,
-                        loggedUser: req.session.usuario != null
+                        actual: pg
                     });
                 res.send(respuesta);
             }
