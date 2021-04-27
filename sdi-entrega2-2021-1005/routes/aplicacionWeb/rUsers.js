@@ -1,6 +1,6 @@
 module.exports = function (app, swig, gestorBD) {
 
-    app.get("/users", function (req, res) {
+    app.get("/user/list", function (req, res) {
         let unitsPerPage = 100;
         let criterio = {};
 
@@ -37,7 +37,7 @@ module.exports = function (app, swig, gestorBD) {
                     }
                 }
                 
-                let respuesta = swig.renderFile('views/users/list.html',
+                let respuesta = swig.renderFile('views/user/list.html',
                     {
                         users: users,
                         paginas: paginas,

@@ -73,7 +73,7 @@ module.exports = function (app, swig, gestorBD) {
 
             } else {
                 req.session.usuario = usuarios[0].email;
-                res.redirect("/users");
+                res.redirect("/user/profile");
             }
         });
     });

@@ -103,7 +103,11 @@ let swig = require('swig');
 
 // Redireccion de rutas
 app.get('/', function (req, res) {
-    res.redirect('/index');
+    if (req.session.usuario) {
+        res.redirect('/user/profile');
+    } else {
+        res.redirect("/login");
+    }
 });
 
 // Captura de errores
