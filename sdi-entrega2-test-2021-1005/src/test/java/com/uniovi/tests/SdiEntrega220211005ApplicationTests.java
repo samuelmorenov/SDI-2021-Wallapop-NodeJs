@@ -11,6 +11,7 @@ import com.uniovi.tests.ejercicios.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	//*/
 	Ejercicio01_Tests.class,
 	Ejercicio02_Tests.class,
 	Ejercicio03_Tests.class,
@@ -22,11 +23,12 @@ import com.uniovi.tests.ejercicios.*;
 	Ejercicio09_Tests.class,
 	Ejercicio10_Tests.class,
 	Ejercicio11_Tests.class,
-	Ejercicio12_Tests.class,
+	//Ejercicio12_Tests.class,
 	Ejercicio13_Tests.class
+	//*/
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SdiEntrega120211005ApplicationTests {
+public class SdiEntrega220211005ApplicationTests {
 
 	// Al finalizar la ultima prueba
 	@AfterClass

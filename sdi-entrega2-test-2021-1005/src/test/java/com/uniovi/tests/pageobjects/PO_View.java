@@ -19,10 +19,12 @@ public class PO_View extends PO_Config {
 	 *                p.ENGLISH.
 	 * @return Se retornará la lista de elementos resultantes de la búsqueda.
 	 */
+	@Deprecated
 	static public List<WebElement> checkKey(String key, int locale) {
 		return SeleniumUtils.EsperaCargaPagina("text", getP().getString(key, locale), getTimeout());
 	}
 
+	@Deprecated
 	static public void checkNoKey(String key, int locale) {
 		SeleniumUtils.NoEsperaCargaPagina("text", getP().getString(key, locale), getTimeout());
 	}
