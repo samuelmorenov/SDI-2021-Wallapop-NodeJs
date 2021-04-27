@@ -1,5 +1,13 @@
 module.exports = function (app, swig, gestorBD) {
 
+    app.get("/user/profile", function (req, res) {
+        let respuesta = swig.renderFile('views/user/profile.html',
+            {
+                loggedUser: req.session.usuario
+            });
+        res.send(respuesta);
+    });
+
     app.get("/user/list", function (req, res) {
         let unitsPerPage = 100;
         let criterio = {};

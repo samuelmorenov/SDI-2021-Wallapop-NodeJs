@@ -25,15 +25,16 @@ module.exports = function (app, mongo) {
                     .update("123456").digest('hex');
                 let seguroAdmin = app.get("crypto").createHmac('sha256', app.get('clave'))
                     .update("admin").digest('hex');
+                let dineroInicial = 100;
                 let usuarios =
                     [
-                        {email: "admin@email.com", name: "Admin", lastName: "Istrador", password: seguroAdmin, role: "ROLE_ADMIN", money: 100.0},
-                        {email: "pedro@email.com", name: "Pedro", lastName: "Díaz", password: seguro, role: "ROLE_USER", money: 100.0},
-                        {email: "lucas@email.com", name: "Lucas", lastName: "Núñez", password: seguro, role: "ROLE_USER", money: 100.0},
-                        {email: "maria@email.com", name: "María", lastName: "Rodríguez", password: seguro, role: "ROLE_USER", money: 100.0},
-                        {email: "marta@email.com", name: "Marta", lastName: "Almonte", password: seguro, role: "ROLE_USER", money: 100.0},
-                        {email: "pelayo@email.com", name: "Pelayo", lastName: "Valdes", password: seguro, role: "ROLE_USER", money: 100.0},
-                        {email: "florentina@email.com", name: "Florentina", lastName: "Azul", password: seguro, role: "ROLE_USER", money: 100.0},
+                        {email: "admin@email.com", name: "Admin", lastName: "Istrador", password: seguroAdmin, role: "ROLE_ADMIN", money: dineroInicial},
+                        {email: "pedro@email.com", name: "Pedro", lastName: "Díaz", password: seguro, role: "ROLE_USER", money: dineroInicial},
+                        {email: "lucas@email.com", name: "Lucas", lastName: "Núñez", password: seguro, role: "ROLE_USER", money: dineroInicial},
+                        {email: "maria@email.com", name: "María", lastName: "Rodríguez", password: seguro, role: "ROLE_USER", money: dineroInicial},
+                        {email: "marta@email.com", name: "Marta", lastName: "Almonte", password: seguro, role: "ROLE_USER", money: dineroInicial},
+                        {email: "pelayo@email.com", name: "Pelayo", lastName: "Valdes", password: seguro, role: "ROLE_USER", money: dineroInicial},
+                        {email: "florentina@email.com", name: "Florentina", lastName: "Azul", password: seguro, role: "ROLE_USER", money: dineroInicial},
                     ];
                 collection = db.collection('usuarios');
                 collection.insertMany(usuarios, function (err, result) {

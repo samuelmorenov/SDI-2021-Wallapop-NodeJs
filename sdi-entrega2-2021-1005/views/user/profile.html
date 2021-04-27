@@ -1,0 +1,44 @@
+{% extends "../base.html" %}
+
+{% block titulo %} Usuarios {% endblock %}
+
+{% block contenido_principal %}
+
+<div class="container">
+    <h2>Bienvenido de vuelta</h2>
+
+    {% if loggedUser.role == "ROLE_USER" %}
+    <div>
+        <p>Estos son tus datos actuales</p>
+        <div class="panel panel-default">
+            <div class="panel-heading">Nombre</div>
+            <div class="panel-body">{{ loggedUser.name }}</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Dinero actual</div>
+            <div class="panel-body">{{ loggedUser.money }}</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Ofertas publicadas</div>
+            <div class="panel-body">
+                <a href="/offer/own" class="btn btn-primary">Ver</a>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Compras realizadas</div>
+            <div class="panel-body">
+                <a href="/offer/purchased" class="btn btn-primary">Ver</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if loggedUser.role == "ROLE_ADMIN" %}
+    <div>
+        <p>Estas en la página de administración</p>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
