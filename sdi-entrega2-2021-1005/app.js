@@ -120,7 +120,10 @@ app.use(function (err, req, res, next) {
 
 // Aplicar RouterUsuarioSession para los Servicios Web
 
-app.use("/users", routerUsuarioSession);
+app.use("/user/list", routerUsuarioSession);
+app.use("/user/profile", routerUsuarioSession);
+app.use("/offer/post", routerUsuarioSession);
+
 
 // Establecimiento de Rutas
 //Rutas para la Aplicacion web
