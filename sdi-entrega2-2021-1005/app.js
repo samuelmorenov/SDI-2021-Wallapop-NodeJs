@@ -126,6 +126,7 @@ app.use("/users", routerUsuarioSession);
 //Rutas para la Aplicacion web
 require("./routes/aplicacionWeb/rLogInSignUp.js")(app, swig, gestorBD);
 require("./routes/aplicacionWeb/rUsers.js")(app, swig, gestorBD);
+require("./routes/aplicacionWeb/rOffers.js")(app, swig, gestorBD);
 
 //Rutas para los Servicios Web
 require("./routes/serviciosWeb/rUsers")(app, gestorBD);
