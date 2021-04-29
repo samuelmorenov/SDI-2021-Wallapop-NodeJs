@@ -34,7 +34,7 @@ module.exports = function (app, swig, gestorBD) {
                 date: new Date(),
                 price: req.body.price,
                 status: "CREATED",
-                creator: req.session.usuario,
+                creator: req.session.usuario.email,
                 buyer: null
             };
 
@@ -108,13 +108,13 @@ module.exports = function (app, swig, gestorBD) {
 
     app.get("/offer/own", function (req, res) {
         let url = 'views/offer/own.html';
-        let criterio = { creator: req.session.usuario};
+        let criterio = { creator: req.session.usuario.email};
         mostrarListaOfertas(req, res, criterio,url);
     });
 
     app.get("/offer/purchased", function (req, res) {
         let url = 'views/offer/purchased.html';
-        let criterio = { buyer: req.session.usuario};
+        let criterio = { buyer: req.session.usuario.email};
         mostrarListaOfertas(req, res, criterio,url);
     });
 
@@ -137,10 +137,10 @@ module.exports = function (app, swig, gestorBD) {
     function addAdditionalInformation(ofertas, usuario){
         for (let i = 0; i < ofertas.length; i++) {
             let oferta = ofertas[i];
-            if(oferta.creator != null && oferta.cretor === usuario){
+            if(oferta.creator != null && oferta.cretor === usuario.email){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Propio';
-            } else if(oferta.buyer != null && oferta.buyer === usuario){
+            } else if(oferta.buyer != null && oferta.buyer === usuario.email){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Comprado';
             } else if(oferta.status != null && oferta.status === "SOLDOUT"){

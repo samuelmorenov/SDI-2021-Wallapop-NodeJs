@@ -62,7 +62,7 @@ module.exports = function (app, mongo) {
                         date: new Date(),
                         price: 11.11,
                         status: "CREATED",
-                        creator: usuarios[0],
+                        creator: usuarios[1].email,
                         buyer: null
                     },{
                         title: "Titulo Oferta 2",
@@ -70,23 +70,23 @@ module.exports = function (app, mongo) {
                         date: new Date(),
                         price: 22.22,
                         status: "SOLDOUT",
-                        creator: usuarios[0],
-                        buyer: usuarios[1]
+                        creator: usuarios[1].email,
+                        buyer: usuarios[2].email
                     },{
                         title: "Titulo Oferta 3",
                         description: "Creada por pedro, comprada por marta",
                         date: new Date(),
                         price: 33.33,
                         status: "SOLDOUT",
-                        creator: usuarios[0],
-                        buyer: usuarios[2]
+                        creator: usuarios[1].email,
+                        buyer: usuarios[3].email
                     },{
                         title: "Titulo Oferta 4",
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 44.44,
                         status: "CREATED",
-                        creator: usuarios[1],
+                        creator: usuarios[2].email,
                         buyer: null
                     },{
                         title: "Titulo Oferta 5",
@@ -94,16 +94,16 @@ module.exports = function (app, mongo) {
                         date: new Date(),
                         price: 55.55,
                         status: "SOLDOUT",
-                        creator: usuarios[1],
-                        buyer: usuarios[0]
+                        creator: usuarios[2].email,
+                        buyer: usuarios[1].email
                     },{
                         title: "Titulo Oferta 6",
                         description: "Creada por maria, comprada por marta",
                         date: new Date(),
                         price: 66.66,
                         status: "SOLDOUT",
-                        creator: usuarios[1],
-                        buyer: usuarios[2]
+                        creator: usuarios[2].email,
+                        buyer: usuarios[3].email
                     }];
 
                 collection = db.collection('ofertas');

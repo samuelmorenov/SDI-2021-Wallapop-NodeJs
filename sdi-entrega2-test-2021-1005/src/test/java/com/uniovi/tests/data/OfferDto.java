@@ -6,14 +6,14 @@ public class OfferDto {
 	public String description;
 	public String price;
 	public String status;
-	public UserDto creator;
-	public UserDto buyer;
+	public String creator;
+	public String buyer;
 
 	public OfferDto() {
 		this.buyer = null;
 	}
 
-	public OfferDto(String title, String description, String price, String status, UserDto creator) {
+	public OfferDto(String title, String description, String price, String status, String creator) {
 		super();
 		this.title = title;
 		this.description = description;
