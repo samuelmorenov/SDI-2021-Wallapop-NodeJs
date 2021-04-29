@@ -2,6 +2,12 @@
 let express = require('express');
 let app = express();
 
+//Logger
+let log4js = require('log4js');
+let logger = log4js.getLogger();
+logger.level = 'debug';
+app.set('logger', logger);
+
 // Establecemos los controles de acceso HTTP
 // Debemos especificar todas las headers que se aceptan.
 app.use(function (req, res, next) {
