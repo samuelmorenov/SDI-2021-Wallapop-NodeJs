@@ -124,8 +124,7 @@ app.use("/user/list", routerUsuarioSession);
 app.use("/user/profile", routerUsuarioSession);
 app.use("/offer/post", routerUsuarioSession);
 app.use("/offer/own", routerUsuarioSession);
-
-
+app.use("/offer/all", routerUsuarioSession);
 
 // Establecimiento de Rutas
 //Rutas para la Aplicacion web

@@ -3,12 +3,9 @@
 {% block titulo %} Ofertas Creadas {% endblock %}
 
 {% block contenido_principal %}
-
 <div class="container">
     <h2>Ofertas Creadas</h2>
-
     <p>Las ofertas que has creado son las siguientes:</p>
-
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -18,45 +15,31 @@
                 <th>Precio</th>
                 <th>Fecha de creación</th>
                 <th class="col-md-1"></th>
-
             </tr>
             </thead>
             <tbody>
-
             {% for offer in offers %}
-
             <tr class="fila">
                 <td>{{ offer.title }}</td>
                 <td>{{ offer.description }}</td>
                 <td>{{ offer.price }}</td>
                 <td>{{ offer.date.toLocaleDateString('en-GB') }}</td>
-
-
-
                 <td>
-
                     <form action="/offer/delete" method="post">
-                        <button
-                                type="submit"
+                        <button type="submit"
                                 id="deleteButton-{{ offer.id }}"
                                 class="btn btn-default"
                                 name="email"
                                 value="{{ offer.id }}"
-                                style="height:30px;width:180px"
-                        >
+                                style="height:30px;width:180px">
                             Borrar
                         </button>
                     </form>
                 </td>
-
             </tr>
-
             {% endfor %}
-
             </tbody>
         </table>
     </div>
-
 </div>
-
 {% endblock %}
