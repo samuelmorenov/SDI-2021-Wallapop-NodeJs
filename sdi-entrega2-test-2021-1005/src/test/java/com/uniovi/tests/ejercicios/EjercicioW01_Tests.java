@@ -4,7 +4,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.uniovi.tests.data.UserList;
+import com.uniovi.tests.data.DataList;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.formularios.PO_RegisterView;
@@ -16,9 +16,9 @@ public class EjercicioW01_Tests extends BaseTests {
 	@Test
 	public void Prueba_01() {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
-		PO_RegisterView.fillForm(UserList.usuariosTest(0).email, UserList.usuariosTest(0).name,
-				UserList.usuariosTest(0).lastName, UserList.usuariosTest(0).password,
-				UserList.usuariosTest(0).password);
+		PO_RegisterView.fillForm(DataList.usuariosTest(0).email, DataList.usuariosTest(0).name,
+				DataList.usuariosTest(0).lastName, DataList.usuariosTest(0).password,
+				DataList.usuariosTest(0).password);
 		PO_View.checkElement("text", signup_usuarioCorrecto);
 	}
 
@@ -26,8 +26,8 @@ public class EjercicioW01_Tests extends BaseTests {
 	@Test
 	public void Prueba_02_a() {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
-		PO_RegisterView.fillForm("", UserList.usuariosTest(0).name, UserList.usuariosTest(0).lastName,
-				UserList.usuariosTest(0).password, UserList.usuariosTest(0).password);
+		PO_RegisterView.fillForm("", DataList.usuariosTest(0).name, DataList.usuariosTest(0).lastName,
+				DataList.usuariosTest(0).password, DataList.usuariosTest(0).password);
 		PO_View.checkNoElement("text", signup_usuarioCorrecto);
 	}
 
@@ -35,8 +35,8 @@ public class EjercicioW01_Tests extends BaseTests {
 	@Test
 	public void Prueba_02_b() {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
-		PO_RegisterView.fillForm("correo_prueba@email.com", "", UserList.usuariosTest(0).lastName,
-				UserList.usuariosTest(0).password, UserList.usuariosTest(0).password);
+		PO_RegisterView.fillForm("correo_prueba@email.com", "", DataList.usuariosTest(0).lastName,
+				DataList.usuariosTest(0).password, DataList.usuariosTest(0).password);
 		PO_View.checkNoElement("text", signup_usuarioCorrecto);
 	}
 
@@ -44,8 +44,8 @@ public class EjercicioW01_Tests extends BaseTests {
 	@Test
 	public void Prueba_02_c() {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
-		PO_RegisterView.fillForm("correo_prueba@email.com", UserList.usuariosTest(0).name, "",
-				UserList.usuariosTest(0).password, UserList.usuariosTest(0).password);
+		PO_RegisterView.fillForm("correo_prueba@email.com", DataList.usuariosTest(0).name, "",
+				DataList.usuariosTest(0).password, DataList.usuariosTest(0).password);
 		PO_View.checkNoElement("text", signup_usuarioCorrecto);
 	}
 
@@ -55,9 +55,9 @@ public class EjercicioW01_Tests extends BaseTests {
 	@Test
 	public void Prueba_03() {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
-		PO_RegisterView.fillForm("correo_prueba@email.com", UserList.usuariosTest(0).name,
-				UserList.usuariosTest(0).lastName, UserList.usuariosTest(0).password,
-				UserList.usuariosTest(0).password + "e");
+		PO_RegisterView.fillForm("correo_prueba@email.com", DataList.usuariosTest(0).name,
+				DataList.usuariosTest(0).lastName, DataList.usuariosTest(0).password,
+				DataList.usuariosTest(0).password + "e");
 		PO_View.checkElement("text", signup_contraseniaErronea);
 
 	}
@@ -66,9 +66,9 @@ public class EjercicioW01_Tests extends BaseTests {
 	@Test
 	public void Prueba_04() {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
-		PO_RegisterView.fillForm(UserList.usuarios(0).email, UserList.usuariosTest(0).name,
-				UserList.usuariosTest(0).lastName, UserList.usuariosTest(0).password,
-				UserList.usuariosTest(0).password);
+		PO_RegisterView.fillForm(DataList.usuarios(0).email, DataList.usuariosTest(0).name,
+				DataList.usuariosTest(0).lastName, DataList.usuariosTest(0).password,
+				DataList.usuariosTest(0).password);
 		PO_View.checkElement("text", signup_emailRepetido);
 	}
 

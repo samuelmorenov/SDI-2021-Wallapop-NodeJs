@@ -4,7 +4,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.uniovi.tests.data.UserList;
+import com.uniovi.tests.data.DataList;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
@@ -26,7 +26,7 @@ public class EjercicioW02_Tests extends BaseTests {
 	@Test
 	public void Prueba_06() {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(UserList.usuarios(0).email, "incorrecta");
+		PO_LoginView.fillForm(DataList.usuarios(0).email, "incorrecta");
 		PO_View.checkElement("text", login_incorrecto);
 	}
 
@@ -46,7 +46,7 @@ public class EjercicioW02_Tests extends BaseTests {
 	@Test
 	public void Prueba_08() {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");
-		PO_LoginView.fillForm("email@incorrecto.com", UserList.usuarios(0).password);
+		PO_LoginView.fillForm("email@incorrecto.com", DataList.usuarios(0).password);
 		PO_View.checkElement("text", login_incorrecto);
 	}
 
