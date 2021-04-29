@@ -1,6 +1,7 @@
 module.exports = function (app, swig, gestorBD) {
 
     app.get("/user/profile", function (req, res) {
+        app.get('logger').info(req.session.usuario.email+" ha entrado en el metodo get de /user/profile");
         let respuesta = swig.renderFile('views/user/profile.html',
             {
                 loggedUser: req.session.usuario
@@ -9,6 +10,7 @@ module.exports = function (app, swig, gestorBD) {
     });
 
     app.get("/user/list", function (req, res) {
+        app.get('logger').info(req.session.usuario.email+" ha entrado en el metodo get de /user/list");
         let unitsPerPage = 100;
         let criterio = {};
 
@@ -31,9 +33,11 @@ module.exports = function (app, swig, gestorBD) {
 
         gestorBD.obtenerListaPaginada('usuarios', criterio, pg, unitsPerPage, function (users, total) {
             if (users == null) {
+                app.get('logger').error("BD: Error al obtener la lista de ofertas");
                 req.session.error = "Error: No se ha podido obtener la lista de usuarios";
                 res.redirect('/error');
             } else {
+                app.get('logger').debug("Se ha obtenido la lista de usuarios con exito");
                 let ultimaPg = total / unitsPerPage;
                 if (total % unitsPerPage > 0) { // Sobran decimales
                     ultimaPg = ultimaPg + 1;

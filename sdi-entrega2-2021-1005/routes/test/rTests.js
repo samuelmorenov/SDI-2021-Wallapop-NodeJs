@@ -4,6 +4,8 @@ module.exports = function (app, mongo) {
         let criterio = {};
         let collection;
 
+        app.get('logger').info("Se ha entrado en el metodo de reseteo de DB");
+
         //Abrimos la conexion con mongo
         mongo.MongoClient.connect(app.get('db'), function (err, db) {
             if (err) {
@@ -16,6 +18,7 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
+                        app.get('logger').error("Error al resetear la BD.");
                         res.send(String("Error al resetear la BD."));
                     }
                 });
@@ -40,6 +43,7 @@ module.exports = function (app, mongo) {
                 collection.insertMany(usuarios, function (err, result) {
                     if (err) {
                         db.close();
+                        app.get('logger').error("Error al resetear la BD.");
                         res.send(String("Error al resetear la BD."));
                     }
                 });
@@ -50,6 +54,7 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
+                        app.get('logger').error("Error al resetear la BD.");
                         res.send(String("Error al resetear la BD."));
                     }
                 });
@@ -110,12 +115,14 @@ module.exports = function (app, mongo) {
                 collection.insertMany(ofertas, function (err, result) {
                     if (err) {
                         db.close();
+                        app.get('logger').error("Error al resetear la BD.");
                         res.send(String("Error al resetear la BD."));
                     }
                 });
 
-                res.send(String("Base de datos reiniciada."));
                 db.close();
+                app.get('logger').info("Base de datos reiniciada.");
+                res.send(String("Base de datos reiniciada."));
             }
         });
     })
