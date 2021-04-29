@@ -51,4 +51,22 @@ module.exports = function (app, swig, gestorBD) {
         }
     });
 
+    app.get("/offer/own", function (req, res) {
+        let criterio = {};
+
+        gestorBD.obtenerLista('ofertas', criterio, function (ofertas, total) {
+            if (ofertas == null) {
+                req.session.error = "Error: No se ha podido obtener la lista de ofertas";
+                res.redirect('/error');
+            } else {
+                let respuesta = swig.renderFile('views/offer/own.html',
+                    {
+                        loggedUser: req.session.usuario,
+                        offers: ofertas
+                    });
+                res.send(respuesta);
+            }
+        });
+    });
+
 }

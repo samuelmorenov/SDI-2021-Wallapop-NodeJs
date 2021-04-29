@@ -123,6 +123,8 @@ app.use(function (err, req, res, next) {
 app.use("/user/list", routerUsuarioSession);
 app.use("/user/profile", routerUsuarioSession);
 app.use("/offer/post", routerUsuarioSession);
+app.use("/offer/own", routerUsuarioSession);
+
 
 
 // Establecimiento de Rutas
