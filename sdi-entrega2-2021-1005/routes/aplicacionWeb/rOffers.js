@@ -17,7 +17,7 @@ module.exports = function (app, swig, gestorBD) {
                 "?mensaje=" +
                 "El precio debe ser de minimo 1€." +
                 "&tipoMensaje=alert-danger ");
-        } else if (req.body.title.length < 20) {
+        } else if (req.body.title.length < 5) {
             res.redirect("/offer/post" +
                 "?mensaje=" +
                 "El titulo debe tener minimo 5 caracteres." +

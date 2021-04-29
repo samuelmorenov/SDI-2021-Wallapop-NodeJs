@@ -19,6 +19,7 @@ public class BaseTests {
 	protected static final String login_incorrecto = "La combinacion usuario-contraseña es incorrecta.";
 	protected static final String login_titulo = "Identificación de usuario";
 	protected static final String profile_titulo = "Bienvenido de vuelta";
+	protected static final String post_incorrecto = "El titulo debe tener minimo 5 caracteres";
 	
 	
 	

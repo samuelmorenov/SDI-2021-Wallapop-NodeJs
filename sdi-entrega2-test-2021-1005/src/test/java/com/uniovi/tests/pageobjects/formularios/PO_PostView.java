@@ -29,7 +29,7 @@ public class PO_PostView extends PO_Config {
 	
 	public static void addNew(String text) {
 		PO_NavView.accederPagina("offer-menu", "/offer/post");
-		PO_PostView.fillForm(text, text+" Descripcion", "10,01");
+		PO_PostView.fillForm(text, text+" - Descripcion de al menos 20 caracteres.", "10,01");
 	}
 
 }

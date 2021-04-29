@@ -1,10 +1,13 @@
 package com.uniovi.tests.ejercicios;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
+import com.uniovi.tests.pageobjects.formularios.PO_PostView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EjercicioW06_Tests extends BaseTests {
@@ -16,12 +19,12 @@ public class EjercicioW06_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_15() {
-		assertTrue(false);
-//		PO_LoginView.loginUser0();
-//		PO_PostView.addNew("Oferta Test");
-//		
-//		PO_NavView.accederPagina("offer-menu", "/offer/own");
-//		PO_View.checkElement("text", "Oferta Test");
+		String titulo = "Oferta Test";
+		PO_LoginView.loginUser0();
+		PO_PostView.addNew(titulo);
+		
+		PO_NavView.accederPagina("offer-menu", "/offer/own");
+		PO_View.checkElement("text", titulo);
 	}
 
 	/**
@@ -31,11 +34,10 @@ public class EjercicioW06_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_16() {
-		assertTrue(false);
-//		PO_LoginView.loginUser0();
-//		
-//		PO_NavView.accederPagina("offer-menu", "/offer/post");
-//		PO_PostView.fillForm("", "Oferta Test Descripcion", "10,01");		
-//		PO_View.checkKey("Error.empty", PO_Properties.getSPANISH());
+		PO_LoginView.loginUser0();
+
+		PO_NavView.accederPagina("offer-menu", "/offer/post");
+		PO_PostView.fillForm("", "Oferta Test Descripcion", "10,01");
+		PO_View.checkElement("text", post_incorrecto);
 	}
 }
