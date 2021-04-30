@@ -131,6 +131,24 @@ module.exports = function (app, swig, gestorBD) {
         mostrarListaOfertas(req, res, criterio,url);
     });
 
+    app.post("/offer/delete", function (req, res) {
+        app.get('logger').info(req.session.usuario.email + " ha entrado en el metodo post de /offer/delete");
+        let id = req.body.offerId;
+        let criterio = {"_id": gestorBD.mongo.ObjectID(id)};
+        app.get('logger').debug("Borrar con criterio: "+id);
+
+        gestorBD.borrarOferta(criterio, function (canciones) {
+            if (canciones == null) {
+                app.get('logger').error("BD: Error al borrar la oferta");
+                req.session.error = "Error al eliminar la cancion";
+                res.redirect('/error');
+            } else {
+                app.get('logger').debug("Se ha borrado la oferta con exito");
+                res.redirect("/offer/own");
+            }
+        });
+    });
+
     function mostrarListaOfertas(req, res, criterio, url) {
         app.get('logger').info("Se ha entrado en el metodo mostrarListaOfertas");
         gestorBD.obtenerLista('ofertas', criterio, function (ofertas, total) {

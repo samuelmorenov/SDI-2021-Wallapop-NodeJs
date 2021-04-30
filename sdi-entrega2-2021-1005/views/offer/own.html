@@ -27,10 +27,10 @@
                 <td>
                     <form action="/offer/delete" method="post">
                         <button type="submit"
-                                id="deleteButton-{{ offer.id }}"
+                                id="deleteButton-{{ offer._id.toString() }}"
                                 class="btn btn-default"
-                                name="email"
-                                value="{{ offer.id }}"
+                                name="offerId"
+                                value="{{ offer._id.toString() }}"
                                 style="height:30px;width:180px">
                             Borrar
                         </button>
