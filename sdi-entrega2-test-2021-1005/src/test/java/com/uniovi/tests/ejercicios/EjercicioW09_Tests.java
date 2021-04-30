@@ -6,6 +6,12 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.uniovi.tests.data.DataList;
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_Search;
+import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EjercicioW09_Tests extends BaseTests {
 
@@ -15,17 +21,16 @@ public class EjercicioW09_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_20() {
-		assertTrue(false);
-//		PO_LoginView.loginUser0();
-//		PO_NavView.accederPagina("offer-menu", "/offer/all");
-//		int total = PO_View.checkElement("class", "fila").size();
-//
-//		PO_NavView.accederPagina("offer-menu", "/offer/all");
-//		PO_Search.search("");
-//
-//		int parcial = PO_View.checkElement("class", "fila").size();
-//
-//		assertTrue(total == parcial);
+		PO_LoginView.loginUser0();
+		PO_NavView.accederPagina("offer-menu", "/offer/all");
+		int total = PO_View.checkElement("class", "fila").size();
+
+		PO_NavView.accederPagina("offer-menu", "/offer/all");
+		PO_Search.search("");
+
+		int parcial = PO_View.checkElement("class", "fila").size();
+
+		assertTrue(total == parcial);
 	}
 
 	/**
@@ -34,13 +39,12 @@ public class EjercicioW09_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_21() {
-		assertTrue(false);
-//		PO_LoginView.loginUser0();
-//
-//		PO_NavView.accederPagina("offer-menu", "/offer/all");
-//		PO_Search.search("NombreInexistente");
-//
-//		PO_View.checkNoElement("class", "fila");
+		PO_LoginView.loginUser0();
+
+		PO_NavView.accederPagina("offer-menu", "/offer/all");
+		PO_Search.search("NombreInexistente");
+
+		PO_View.checkNoElement("class", "fila");
 	}
 
 	/**
@@ -51,7 +55,12 @@ public class EjercicioW09_Tests extends BaseTests {
 	 */
 	@Test
 	public void Prueba_22() {
-		assertTrue(false);
+		PO_LoginView.loginUser0();
+
+		PO_NavView.accederPagina("offer-menu", "/offer/all");
+		PO_Search.search(DataList.ofertas(0).title.toUpperCase());
+
+		PO_View.checkElement("class", "fila");
 	}
 
 }
