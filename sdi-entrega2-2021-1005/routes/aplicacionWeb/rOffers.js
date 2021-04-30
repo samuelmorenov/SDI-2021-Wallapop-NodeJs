@@ -66,13 +66,17 @@ module.exports = function (app, swig, gestorBD) {
         let unitsPerPage = 100;
         let criterio = {};
 
-        let busquedaText = req.query.searchText;
-        if (busquedaText != null) {
+        let busquedaTextV0 = req.query.searchText;
+        if (busquedaTextV0 != null) {
+            let busquedaTextV1 = ".*" + busquedaTextV0 + ".*";
+            let busquedaTextV2 = new RegExp(["^", busquedaTextV1, "$"].join(""), "i");
+            app.get('logger').debug("Criterio de busqueda = "+busquedaTextV2);
+            
             let busqueda = {
                 $or:
                     [
-                        {"title": {$regex: ".*" + busquedaText + ".*"}},
-                        {"description": {$regex: ".*" + busquedaText+ ".*"}}
+                        {"title": {$regex: busquedaTextV2 }},
+                        {"description": {$regex: busquedaTextV2 }}
                     ]
             };
             criterio = {$and: [criterio, busqueda]};
