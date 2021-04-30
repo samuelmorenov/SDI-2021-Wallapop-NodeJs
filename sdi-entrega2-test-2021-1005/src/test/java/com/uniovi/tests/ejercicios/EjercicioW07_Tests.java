@@ -22,6 +22,7 @@ public class EjercicioW07_Tests extends BaseTests {
 		PO_LoginView.loginUser0();
 
 		PO_NavView.accederPagina("offer-menu", "/offer/own");
+		PO_View.checkElement("text", own_titulo);
 		
 		String userEmail = DataList.usuarios(0).email;
 		for (int i = 0; i < DataList.maxOffer; i++) {

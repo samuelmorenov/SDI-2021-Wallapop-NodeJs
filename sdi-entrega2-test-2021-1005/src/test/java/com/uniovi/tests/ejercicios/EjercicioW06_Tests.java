@@ -24,6 +24,7 @@ public class EjercicioW06_Tests extends BaseTests {
 		PO_PostView.addNew(titulo);
 		
 		PO_NavView.accederPagina("offer-menu", "/offer/own");
+		PO_View.checkElement("text", own_titulo);
 		PO_View.checkElement("text", titulo);
 	}
 
