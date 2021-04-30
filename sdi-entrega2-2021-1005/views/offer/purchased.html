@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+
+{% block titulo %} Ofertas Adquiridas {% endblock %}
+
+{% block contenido_principal %}
+
+<div class="container">
+    <h2>Ofertas Adquiridas</h2>
+
+    <p>Las ofertas que has adquidido son las siguientes:</p>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Detalle</th>
+                <th>Precio</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for offer in offers %}
+            <tr class="fila">
+                <td>{{ offer.title }}</td>
+                <td>{{ offer.description }}</td>
+                <td>{{ offer.price }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
