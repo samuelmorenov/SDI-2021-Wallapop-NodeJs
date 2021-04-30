@@ -119,4 +119,26 @@ module.exports = {
             }
         });
     },
+
+    obtenerOferta: function (criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('ofertas');
+                collection.count(function (err, count) {
+
+                    collection.find(criterio).toArray(function (err, list) {
+                        if (err) {
+                            funcionCallback(null);
+                        } else {
+                            funcionCallback(list, count);
+                        }
+                        db.close();
+                    });
+                });
+            }
+        });
+    },
+
 };

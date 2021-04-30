@@ -134,17 +134,31 @@ module.exports = function (app, swig, gestorBD) {
     app.post("/offer/delete", function (req, res) {
         app.get('logger').info(req.session.usuario.email + " ha entrado en el metodo post de /offer/delete");
         let id = req.body.offerId;
+        let user = req.session.usuario.email;
         let criterio = {"_id": gestorBD.mongo.ObjectID(id)};
-        app.get('logger').debug("Borrar con criterio: "+id);
+        app.get('logger').debug("Borrando con criterio: "+id);
 
-        gestorBD.borrarOferta(criterio, function (canciones) {
-            if (canciones == null) {
-                app.get('logger').error("BD: Error al borrar la oferta");
-                req.session.error = "Error al eliminar la cancion";
+        gestorBD.obtenerOferta(criterio, function (ofertas) {
+            if(ofertas == null){
+                app.get('logger').error("BD: No existe la oferta");
+                req.session.error = "Error al eliminar la oferta";
+                res.redirect('/error');
+            }
+            else if(ofertas[0].creator != user){
+                app.get('logger').error("BD: El usuario no es el creador de la oferta: "+ofertas[0].creator);
+                req.session.error = "Error al eliminar la oferta";
                 res.redirect('/error');
             } else {
-                app.get('logger').debug("Se ha borrado la oferta con exito");
-                res.redirect("/offer/own");
+                gestorBD.borrarOferta(criterio, function (resut) {
+                    if (resut == null) {
+                        app.get('logger').error("BD: Error al borrar la oferta");
+                        req.session.error = "Error al eliminar la oferta";
+                        res.redirect('/error');
+                    } else {
+                        app.get('logger').debug("Se ha borrado la oferta con exito");
+                        res.redirect("/offer/own");
+                    }
+                });
             }
         });
     });
