@@ -51,7 +51,7 @@ module.exports = function (app, swig, gestorBD) {
                         "Error al crear la oferta." +
                         "&tipoMensaje=alert-danger ");
                 } else {
-                    app.get('logger').info("Oferta registrada con exito: "+oferta);
+                    app.get('logger').info("Oferta registrada con exito: "+id);
                     res.redirect("/offer/own?mensaje=Oferta registrada con exito.")
                 }
             });
@@ -92,7 +92,7 @@ module.exports = function (app, swig, gestorBD) {
                 req.session.error = "Error: No se ha podido obtener la lista de ofertas";
                 res.redirect('/error');
             } else {
-                app.get('logger').debug("Se ha obtenido la lista de ofertas con exito");
+                app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+total);
 
                 let ultimaPg = total / unitsPerPage;
                 if (total % unitsPerPage > 0) { // Sobran decimales
@@ -147,13 +147,13 @@ module.exports = function (app, swig, gestorBD) {
                 req.session.error = "Error al eliminar la oferta";
                 res.redirect('/error');
             }
-            else if(ofertas[0].creator != user){
+            else if(ofertas.length !== 1 || ofertas[0].creator !== user){
                 app.get('logger').error("BD: El usuario no es el creador de la oferta: "+ofertas[0].creator);
                 req.session.error = "Error al eliminar la oferta";
                 res.redirect('/error');
             } else {
-                gestorBD.borrarOferta(criterio, function (resut) {
-                    if (resut == null) {
+                gestorBD.borrarOferta(criterio, function (result) {
+                    if (result == null) {
                         app.get('logger').error("BD: Error al borrar la oferta");
                         req.session.error = "Error al eliminar la oferta";
                         res.redirect('/error');
@@ -174,7 +174,7 @@ module.exports = function (app, swig, gestorBD) {
                 req.session.error = "Error: No se ha podido obtener la lista de ofertas";
                 res.redirect('/error');
             } else {
-                app.get('logger').debug("Se ha obtenido la lista de ofertas con exito");
+                app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+total);
                 let respuesta = swig.renderFile(url,
                     {
                         loggedUser: req.session.usuario,
@@ -193,19 +193,18 @@ module.exports = function (app, swig, gestorBD) {
             let oferta = ofertas[i];
             let creador = oferta.creator;
             let comprador = oferta.buyer;
-
-            if(creador == user){
+            if(creador === user){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Propio';
-            } else if(comprador == user){
-                oferta["buttonDisabled"] = 'disabled';
-                oferta["buttonText"] = 'Comprado';
-            } else if(comprador == null){
-                oferta["buttonDisabled"] = 'disabled';
-                oferta["buttonText"] = 'Agotado';
-            } else {
+            } else if(comprador === null) {
                 oferta["buttonDisabled"] = 'enabled';
                 oferta["buttonText"] = 'Comprar';
+            } else if(comprador === user){
+                oferta["buttonDisabled"] = 'disabled';
+                oferta["buttonText"] = 'Comprado';
+            }  else {
+                oferta["buttonDisabled"] = 'disabled';
+                oferta["buttonText"] = 'Agotado';
             }
         }
         return ofertas;
