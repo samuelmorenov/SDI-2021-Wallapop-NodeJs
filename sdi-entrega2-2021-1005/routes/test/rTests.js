@@ -33,8 +33,8 @@ module.exports = function (app, mongo) {
                     [
                         {email: "admin@email.com", name: "Admin", lastName: "Istrador", password: seguroAdmin, role: "ROLE_ADMIN", money: dineroInicial},
                         {email: "pedro@email.com", name: "Pedro", lastName: "Díaz", password: seguro, role: "ROLE_USER", money: dineroInicial},
-                        {email: "lucas@email.com", name: "Lucas", lastName: "Núñez", password: seguro, role: "ROLE_USER", money: dineroInicial},
                         {email: "maria@email.com", name: "María", lastName: "Rodríguez", password: seguro, role: "ROLE_USER", money: dineroInicial},
+                        {email: "lucas@email.com", name: "Lucas", lastName: "Núñez", password: seguro, role: "ROLE_USER", money: dineroInicial},
                         {email: "marta@email.com", name: "Marta", lastName: "Almonte", password: seguro, role: "ROLE_USER", money: dineroInicial},
                         {email: "pelayo@email.com", name: "Pelayo", lastName: "Valdes", password: seguro, role: "ROLE_USER", money: dineroInicial},
                         {email: "florentina@email.com", name: "Florentina", lastName: "Azul", password: seguro, role: "ROLE_USER", money: dineroInicial},
@@ -59,6 +59,9 @@ module.exports = function (app, mongo) {
                     }
                 });
 
+                let pedro = usuarios[1].email;
+                let maria = usuarios[2].email;
+
                 //Añadimos las ofertas
                 let ofertas =
                     [{
@@ -67,7 +70,7 @@ module.exports = function (app, mongo) {
                         date: new Date(),
                         price: 11.11,
                         status: "CREATED",
-                        creator: usuarios[1].email,
+                        creator: pedro,
                         buyer: null
                     },{
                         title: "Titulo Oferta 2",
@@ -75,40 +78,48 @@ module.exports = function (app, mongo) {
                         date: new Date(),
                         price: 22.22,
                         status: "SOLDOUT",
-                        creator: usuarios[1].email,
-                        buyer: usuarios[2].email
+                        creator: pedro,
+                        buyer: maria
                     },{
                         title: "Titulo Oferta 3",
-                        description: "Creada por pedro, comprada por marta",
+                        description: "Creada por pedro, comprada por maria",
                         date: new Date(),
                         price: 33.33,
                         status: "SOLDOUT",
-                        creator: usuarios[1].email,
-                        buyer: usuarios[3].email
+                        creator: pedro,
+                        buyer: maria
                     },{
                         title: "Titulo Oferta 4",
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 44.44,
                         status: "CREATED",
-                        creator: usuarios[2].email,
+                        creator: maria,
                         buyer: null
                     },{
                         title: "Titulo Oferta 5",
-                        description: "Creada por maria, comprada por pedro",
+                        description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 55.55,
-                        status: "SOLDOUT",
-                        creator: usuarios[2].email,
-                        buyer: usuarios[1].email
+                        status: "CREATED",
+                        creator: maria,
+                        buyer: null
                     },{
                         title: "Titulo Oferta 6",
-                        description: "Creada por maria, comprada por marta",
+                        description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 66.66,
+                        status: "CREATED",
+                        creator: maria,
+                        buyer: null
+                    },{
+                        title: "Titulo Oferta 7",
+                        description: "Creada por maria, comprada por pedro",
+                        date: new Date(),
+                        price: 77.77,
                         status: "SOLDOUT",
-                        creator: usuarios[2].email,
-                        buyer: usuarios[3].email
+                        creator: maria,
+                        buyer: pedro
                     }];
 
                 collection = db.collection('ofertas');

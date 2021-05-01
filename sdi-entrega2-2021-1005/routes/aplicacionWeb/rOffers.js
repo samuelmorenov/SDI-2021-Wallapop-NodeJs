@@ -188,17 +188,23 @@ module.exports = function (app, swig, gestorBD) {
 
     function addAdditionalInformation(ofertas, usuario){
         app.get('logger').info("Se ha entrado en el metodo addAdditionalInformation");
+        let user = usuario.email;
+
         for (let i = 0; i < ofertas.length; i++) {
             let oferta = ofertas[i];
-            if(oferta.creator != null && oferta.cretor === usuario.email){
+            let creador = oferta.creator;
+            let comprador = oferta.buyer;
+            let estado = oferta.status;
+
+            if(creador == user){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Propio';
-            } else if(oferta.buyer != null && oferta.buyer === usuario.email){
+            } else if(comprador == user){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Comprado';
-            } else if(oferta.status != null && oferta.status === "SOLDOUT"){
+            } else if(estado == "SOLDOUT"){
                 oferta["buttonDisabled"] = 'disabled';
-                oferta["buttonText"] = 'Vendido';
+                oferta["buttonText"] = 'Agotado';
             } else {
                 oferta["buttonDisabled"] = 'enabled';
                 oferta["buttonText"] = 'Comprar';

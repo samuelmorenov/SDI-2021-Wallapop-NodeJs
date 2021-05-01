@@ -10,16 +10,16 @@ public class OfferDto {
 	public String buyer;
 
 	public OfferDto() {
-		this.buyer = null;
 	}
 
-	public OfferDto(String title, String description, String price, String status, String creator) {
+	public OfferDto(String title, String description, String price, String status, String creator, String buyer) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.price = price;
 		this.status = status;
 		this.creator = creator;
+		this.buyer = buyer;
 	}
 
 }
