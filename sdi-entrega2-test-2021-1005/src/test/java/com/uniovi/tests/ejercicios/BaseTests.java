@@ -21,6 +21,7 @@ public class BaseTests {
 	protected static final String profile_titulo = "Bienvenido de vuelta";
 	protected static final String post_incorrecto = "El titulo debe tener minimo 5 caracteres";
 	protected static final String own_titulo = "Las ofertas que has creado son las siguientes:";
+	protected static final String buy_saldoInsuficiente = "Saldo insuficiente";
 	
 	
 	
