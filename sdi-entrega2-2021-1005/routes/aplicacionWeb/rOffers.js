@@ -166,6 +166,68 @@ module.exports = function (app, swig, gestorBD) {
         });
     });
 
+    app.post("/offer/buy", function (req, res) {
+        app.get('logger').info(req.session.usuario.email + " ha entrado en el metodo post de /offer/buy");
+        let id = req.body.offerId.toString();
+        let user = req.session.usuario.email;
+        let criterio = {"_id": gestorBD.mongo.ObjectID(id)};
+        app.get('logger').debug("Comprando oferta con id: "+id);
+
+        gestorBD.obtenerOfertas(criterio, function (ofertas) {
+            if(ofertas == null || ofertas.length !== 1){
+                app.get('logger').error("BD: No existe la oferta");
+                req.session.error = "Error al comprar la oferta";
+                res.redirect('/error');
+            } else{
+                let oferta = ofertas[0];
+                let saldo = req.session.usuario.money;
+                if(saldo < oferta.price){
+                    app.get('logger').debug("BD: Saldo insuficiente");
+                    req.session.error = "Saldo insuficiente";
+                    res.redirect('/error');
+                } else if(oferta.buyer != null){
+                    app.get('logger').error("BD: Oferta ya comprada");
+                    req.session.error = "Error al comprar la oferta";
+                    res.redirect('/error');
+                } else if(oferta.creator === user){
+                    app.get('logger').error("BD: Oferta creada por el usuario");
+                    req.session.error = "Error al comprar la oferta";
+                    res.redirect('/error');
+                } else{
+                    let criterio = {"email": user};
+                    let nuevoSaldo = saldo - oferta.price;
+                    app.get('logger').debug("Saldo antiguo = "+saldo+", precio = "+oferta.price+", saldo nuevo = "+nuevoSaldo);
+                    let usuario = {
+                        money: nuevoSaldo
+                    }
+                    gestorBD.modificarUsuario(criterio, usuario,function (result1) {
+                        if (result1 == null) {
+                            app.get('logger').error("BD: Error al comprar la oferta");
+                            req.session.error = "Error al comprar la oferta";
+                            res.redirect('/error');
+                        } else {
+                            let criterio = {"_id": gestorBD.mongo.ObjectID(id)};
+                            let oferta = {
+                                buyer: req.session.usuario.email
+                            }
+                            gestorBD.modificarOferta(criterio, oferta,function (result2) {
+                                if (result2 == null) {
+                                    app.get('logger').error("BD: Error al comprar la oferta");
+                                    req.session.error = "Error al comprar la oferta";
+                                    res.redirect('/error');
+                                } else {
+                                    app.get('logger').debug("Se ha comprado la oferta con exito");
+                                    req.session.usuario.money = nuevoSaldo;
+                                    res.redirect("/offer/purchased");
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
+
     function mostrarListaOfertas(req, res, criterio, url) {
         app.get('logger').info("Se ha entrado en el metodo mostrarListaOfertas");
         gestorBD.obtenerOfertas(criterio, function (ofertas, total) {

@@ -133,6 +133,8 @@ app.use("/offer/post", routerUsuarioSession);
 app.use("/offer/own", routerUsuarioSession);
 app.use("/offer/all", routerUsuarioSession);
 app.use("/offer/delete", routerUsuarioSession);
+app.use("/offer/purchased", routerUsuarioSession);
+app.use("/offer/buy", routerUsuarioSession);
 
 // Establecimiento de Rutas
 //Rutas para la Aplicacion web

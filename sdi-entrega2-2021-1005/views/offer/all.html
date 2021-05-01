@@ -37,10 +37,10 @@
                 <td>
                     <form action="/offer/buy" method="post">
                         <button type="submit"
-                                id="sendButton-{{ offer.id }}"
+                                id="sendButton-{{ offer._id.toString() }}"
                                 class="btn btn-default"
-                                name="email"
-                                value="{{ offer.id }}"
+                                name="offerId"
+                                value="{{ offer._id.toString() }}"
                                 style="height:30px;width:180px"
                                 {{ offer.buttonDisabled }}>
                             {{ offer.buttonText }}
