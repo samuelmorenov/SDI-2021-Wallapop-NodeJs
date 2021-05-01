@@ -69,7 +69,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por pedro, sin comprar",
                         date: new Date(),
                         price: 11.11,
-                        status: "CREATED",
                         creator: pedro,
                         buyer: null
                     },{
@@ -77,7 +76,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por pedro, comprada por maria",
                         date: new Date(),
                         price: 22.22,
-                        status: "SOLDOUT",
                         creator: pedro,
                         buyer: maria
                     },{
@@ -85,7 +83,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por pedro, comprada por maria",
                         date: new Date(),
                         price: 33.33,
-                        status: "SOLDOUT",
                         creator: pedro,
                         buyer: maria
                     },{
@@ -93,7 +90,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 44.44,
-                        status: "CREATED",
                         creator: maria,
                         buyer: null
                     },{
@@ -101,7 +97,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 55.55,
-                        status: "CREATED",
                         creator: maria,
                         buyer: null
                     },{
@@ -109,7 +104,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
                         price: 66.66,
-                        status: "CREATED",
                         creator: maria,
                         buyer: null
                     },{
@@ -117,7 +111,6 @@ module.exports = function (app, mongo) {
                         description: "Creada por maria, comprada por pedro",
                         date: new Date(),
                         price: 77.77,
-                        status: "SOLDOUT",
                         creator: maria,
                         buyer: pedro
                     }];

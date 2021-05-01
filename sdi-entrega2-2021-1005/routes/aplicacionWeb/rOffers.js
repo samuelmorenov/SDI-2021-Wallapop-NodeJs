@@ -39,7 +39,6 @@ module.exports = function (app, swig, gestorBD) {
                 description: req.body.description,
                 date: new Date(),
                 price: req.body.price,
-                status: "CREATED",
                 creator: req.session.usuario.email,
                 buyer: null
             };
@@ -87,7 +86,7 @@ module.exports = function (app, swig, gestorBD) {
             pg = 1;
         }
 
-        gestorBD.obtenerListaPaginada('ofertas', criterio, pg, unitsPerPage, function (ofertas, total) {
+        gestorBD.obtenerOfertasPaginada(criterio, pg, unitsPerPage, function (ofertas, total) {
             if (ofertas == null) {
                 app.get('logger').error("BD: Error al obtener la lista de ofertas");
                 req.session.error = "Error: No se ha podido obtener la lista de ofertas";
@@ -140,9 +139,9 @@ module.exports = function (app, swig, gestorBD) {
         let id = req.body.offerId;
         let user = req.session.usuario.email;
         let criterio = {"_id": gestorBD.mongo.ObjectID(id)};
-        app.get('logger').debug("Borrando con criterio: "+id);
+        app.get('logger').debug("Borrando oferta con id: "+id);
 
-        gestorBD.obtenerOferta(criterio, function (ofertas) {
+        gestorBD.obtenerOfertas(criterio, function (ofertas) {
             if(ofertas == null){
                 app.get('logger').error("BD: No existe la oferta");
                 req.session.error = "Error al eliminar la oferta";
@@ -169,7 +168,7 @@ module.exports = function (app, swig, gestorBD) {
 
     function mostrarListaOfertas(req, res, criterio, url) {
         app.get('logger').info("Se ha entrado en el metodo mostrarListaOfertas");
-        gestorBD.obtenerLista('ofertas', criterio, function (ofertas, total) {
+        gestorBD.obtenerOfertas(criterio, function (ofertas, total) {
             if (ofertas == null) {
                 app.get('logger').error("BD: Error al obtener la lista de ofertas");
                 req.session.error = "Error: No se ha podido obtener la lista de ofertas";
@@ -194,7 +193,6 @@ module.exports = function (app, swig, gestorBD) {
             let oferta = ofertas[i];
             let creador = oferta.creator;
             let comprador = oferta.buyer;
-            let estado = oferta.status;
 
             if(creador == user){
                 oferta["buttonDisabled"] = 'disabled';
@@ -202,7 +200,7 @@ module.exports = function (app, swig, gestorBD) {
             } else if(comprador == user){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Comprado';
-            } else if(estado == "SOLDOUT"){
+            } else if(comprador == null){
                 oferta["buttonDisabled"] = 'disabled';
                 oferta["buttonText"] = 'Agotado';
             } else {
