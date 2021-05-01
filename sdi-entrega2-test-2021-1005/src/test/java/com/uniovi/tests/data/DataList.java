@@ -32,25 +32,28 @@ public class DataList {
 		OfferDto[] list = new OfferDto[maxOffer];
 		
 		list[0] = new OfferDto("Titulo Oferta 1", "Creada por pedro, sin comprar", 
-				"11.11", status[0], usuarios(0).email, null);
+				"10.01", status[0], usuarios(0).email, null);
 		
 		list[1] = new OfferDto("Titulo Oferta 2", "Creada por pedro, comprada por maria", 
-				"22.22", status[1], usuarios(0).email, usuarios(1).email);
+				"10.01", status[1], usuarios(0).email, usuarios(1).email);
 		
 		list[2] = new OfferDto("Titulo Oferta 3", "Creada por pedro, comprada por maria", 
-				"33.33", status[1], usuarios(0).email, usuarios(1).email);
+				"10.01", status[1], usuarios(0).email, usuarios(1).email);
 		
 		list[3] = new OfferDto("Titulo Oferta 4", "Creada por maria, sin comprar", 
-				"44.44", status[0], usuarios(1).email, null);
+				"50", status[0], usuarios(1).email, null);
 		
 		list[4] = new OfferDto("Titulo Oferta 5", "Creada por maria, sin comprar", 
-				"55.55", status[0], usuarios(1).email, null);
+				"100", status[0], usuarios(1).email, null);
 		
 		list[5] = new OfferDto("Titulo Oferta 6", "Creada por maria, sin comprar",  
-				"66.66", status[0], usuarios(1).email, null);
+				"150", status[0], usuarios(1).email, null);
 		
 		list[6] = new OfferDto("Titulo Oferta 7", "Creada por maria, comprada por pedro", 
-				"77.77", status[1], usuarios(1).email, usuarios(0).email);
+				"10.01", status[1], usuarios(1).email, usuarios(0).email);
+		
+		list[6] = new OfferDto("Titulo Oferta 8", "Creada por maria, comprada por lucas", 
+				"10.01", status[1], usuarios(1).email, usuarios(2).email);
 		
 		return list[iterator];
 	}

@@ -61,6 +61,7 @@ module.exports = function (app, mongo) {
 
                 let pedro = usuarios[1].email;
                 let maria = usuarios[2].email;
+                let lucas = usuarios[3].email;
 
                 //Añadimos las ofertas
                 let ofertas =
@@ -68,51 +69,58 @@ module.exports = function (app, mongo) {
                         title: "Titulo Oferta 1",
                         description: "Creada por pedro, sin comprar",
                         date: new Date(),
-                        price: 11.11,
+                        price: 10.01,
                         creator: pedro,
                         buyer: null
                     },{
                         title: "Titulo Oferta 2",
                         description: "Creada por pedro, comprada por maria",
                         date: new Date(),
-                        price: 22.22,
+                        price: 10.01,
                         creator: pedro,
                         buyer: maria
                     },{
                         title: "Titulo Oferta 3",
                         description: "Creada por pedro, comprada por maria",
                         date: new Date(),
-                        price: 33.33,
+                        price: 10.01,
                         creator: pedro,
                         buyer: maria
                     },{
                         title: "Titulo Oferta 4",
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
-                        price: 44.44,
+                        price: 50,
                         creator: maria,
                         buyer: null
                     },{
                         title: "Titulo Oferta 5",
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
-                        price: 55.55,
+                        price: 100,
                         creator: maria,
                         buyer: null
                     },{
                         title: "Titulo Oferta 6",
                         description: "Creada por maria, sin comprar",
                         date: new Date(),
-                        price: 66.66,
+                        price: 150,
                         creator: maria,
                         buyer: null
                     },{
                         title: "Titulo Oferta 7",
                         description: "Creada por maria, comprada por pedro",
                         date: new Date(),
-                        price: 77.77,
+                        price: 10.01,
                         creator: maria,
                         buyer: pedro
+                    },{
+                        title: "Titulo Oferta 8",
+                        description: "Creada por maria, comprada por lucas",
+                        date: new Date(),
+                        price: 10.01,
+                        creator: maria,
+                        buyer: lucas
                     }];
 
                 collection = db.collection('ofertas');
