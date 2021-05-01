@@ -6,7 +6,7 @@ public class DataList {
 	static final String[] status = { "CREATED", "SOLDOUT" };
 
 	public static final int maxUser = 6;
-	public static final int maxOffer = 7;
+	public static final int maxOffer = 8;
 
 	public final static UserDto admin = new UserDto("admin@email.com", "Admin", "Istrador", "admin", roles[1]);
 
@@ -52,7 +52,7 @@ public class DataList {
 		list[6] = new OfferDto("Titulo Oferta 7", "Creada por maria, comprada por pedro", 
 				"10.01", status[1], usuarios(1).email, usuarios(0).email);
 		
-		list[6] = new OfferDto("Titulo Oferta 8", "Creada por maria, comprada por lucas", 
+		list[7] = new OfferDto("Titulo Oferta 8", "Creada por maria, comprada por lucas", 
 				"10.01", status[1], usuarios(1).email, usuarios(2).email);
 		
 		return list[iterator];
