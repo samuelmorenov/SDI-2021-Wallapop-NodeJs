@@ -125,16 +125,13 @@ app.use(function (err, req, res, next) {
 });
 
 // Aplicar RouterUsuarioSession para los Servicios Web
-
 app.use("/logout", routerUsuarioSession);
-app.use("/user/list", routerUsuarioSession);
-app.use("/user/profile", routerUsuarioSession);
-app.use("/offer/post", routerUsuarioSession);
-app.use("/offer/own", routerUsuarioSession);
-app.use("/offer/all", routerUsuarioSession);
-app.use("/offer/delete", routerUsuarioSession);
-app.use("/offer/purchased", routerUsuarioSession);
-app.use("/offer/buy", routerUsuarioSession);
+app.use("/error", routerUsuarioSession);
+app.use("/user/*", routerUsuarioSession);
+app.use("/offer/*", routerUsuarioSession);
+
+// Aplicar RouterUsuarioSession para la Aplicacion web
+app.use('/api/friends', routerUsuarioToken);
 
 // Establecimiento de Rutas
 //Rutas para la Aplicacion web
@@ -144,6 +141,7 @@ require("./routes/aplicacionWeb/rOffers.js")(app, swig, gestorBD);
 
 //Rutas para los Servicios Web
 require("./routes/serviciosWeb/rUsers")(app, gestorBD);
+require("./routes/serviciosWeb/rOffers")(app, gestorBD);
 
 // Rutas para los Test
 require("./routes/test/rTests.js")(app, mongo);

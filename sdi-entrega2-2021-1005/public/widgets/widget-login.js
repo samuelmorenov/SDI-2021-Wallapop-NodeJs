@@ -12,7 +12,7 @@ $('#boton-login').click(function () {
             token = respuesta.token;
             user = $("#email").val();
             Cookies.set('token', respuesta.token);
-            $("#contenedor-principal").load("widgets/widget-users.html");
+            $("#contenedor-principal").load("widgets/widget-offers.html");
         },
         error: function (error) {
             Cookies.remove('token');
