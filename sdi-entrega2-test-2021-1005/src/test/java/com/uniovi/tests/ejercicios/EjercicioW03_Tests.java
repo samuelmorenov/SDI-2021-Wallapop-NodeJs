@@ -19,7 +19,7 @@ public class EjercicioW03_Tests extends BaseTests {
 	public void Prueba_09() {
 		PO_LoginView.loginUser0();
 		PO_NavView.clickOption("logout", "class", "btn btn-primary");
-		PO_View.checkElement("text", login_titulo);
+		PO_View.checkText(login_titulo);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class EjercicioW03_Tests extends BaseTests {
 	public void Prueba_10() {
 		PO_LoginView.loginUser0();
 		PO_NavView.clickOption("logout", "class", "btn btn-primary");
-		PO_View.checkNoElement("text", "checkElement");
+		PO_View.checkNoText("checkElement");
 	}
 
 }

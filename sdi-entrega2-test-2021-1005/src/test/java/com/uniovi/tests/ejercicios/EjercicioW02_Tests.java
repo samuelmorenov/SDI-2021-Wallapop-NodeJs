@@ -16,7 +16,7 @@ public class EjercicioW02_Tests extends BaseTests {
 	@Test
 	public void Prueba_05() {
 		PO_LoginView.loginUser0();
-		PO_View.checkElement("text", profile_titulo);
+		PO_View.checkText(profile_titulo);
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class EjercicioW02_Tests extends BaseTests {
 	public void Prueba_06() {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(DataList.usuarios(0).email, "incorrecta");
-		PO_View.checkElement("text", login_incorrecto);
+		PO_View.checkText(login_incorrecto);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class EjercicioW02_Tests extends BaseTests {
 	public void Prueba_07() {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");
 		PO_LoginView.fillForm("", "");
-		PO_View.checkNoElement("text", profile_titulo);
+		PO_View.checkNoText(profile_titulo);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class EjercicioW02_Tests extends BaseTests {
 	public void Prueba_08() {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");
 		PO_LoginView.fillForm("email@incorrecto.com", DataList.usuarios(0).password);
-		PO_View.checkElement("text", login_incorrecto);
+		PO_View.checkText(login_incorrecto);
 	}
 
 }

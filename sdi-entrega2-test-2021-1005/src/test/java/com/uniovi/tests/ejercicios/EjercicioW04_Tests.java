@@ -21,9 +21,9 @@ public class EjercicioW04_Tests extends BaseTests {
 		PO_LoginView.loginAdmin();
 		PO_NavView.accederPagina("user-list", "/user/list");
 		for (int i = 0; i < DataList.maxUser; i++) {
-			PO_View.checkElement("text", DataList.usuarios(i).email);
-			PO_View.checkElement("text", DataList.usuarios(i).name);
-			PO_View.checkElement("text", DataList.usuarios(i).lastName);
+			PO_View.checkText(DataList.usuarios(i).email);
+			PO_View.checkText(DataList.usuarios(i).name);
+			PO_View.checkText(DataList.usuarios(i).lastName);
 		}
 	}
 

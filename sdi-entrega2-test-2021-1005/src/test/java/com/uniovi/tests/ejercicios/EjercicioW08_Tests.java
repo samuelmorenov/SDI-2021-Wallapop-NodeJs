@@ -27,7 +27,7 @@ public class EjercicioW08_Tests extends BaseTests {
 		WebElement botonABorrar = botones.get(0);
 		String id = botonABorrar.getAttribute("id");
 		botonABorrar.click();
-		PO_View.checkElement("text", own_titulo);
+		PO_View.checkText(own_titulo);
 		PO_View.checkNoElement("id", id);
 	}
 
@@ -44,7 +44,7 @@ public class EjercicioW08_Tests extends BaseTests {
 		WebElement botonABorrar = botones.get(botones.size()-1);
 		String id = botonABorrar.getAttribute("id");
 		botonABorrar.click();
-		PO_View.checkElement("text", own_titulo);
+		PO_View.checkText(own_titulo);
 		PO_View.checkNoElement("id", id);
 	}
 

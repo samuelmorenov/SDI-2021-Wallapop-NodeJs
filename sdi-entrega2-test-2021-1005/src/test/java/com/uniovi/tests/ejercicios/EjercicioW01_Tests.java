@@ -19,7 +19,7 @@ public class EjercicioW01_Tests extends BaseTests {
 		PO_RegisterView.fillForm(DataList.usuariosTest(0).email, DataList.usuariosTest(0).name,
 				DataList.usuariosTest(0).lastName, DataList.usuariosTest(0).password,
 				DataList.usuariosTest(0).password);
-		PO_View.checkElement("text", signup_usuarioCorrecto);
+		PO_View.checkText(signup_usuarioCorrecto);
 	}
 
 	/** Registro de Usuario con datos inválidos: email vacío */
@@ -28,7 +28,7 @@ public class EjercicioW01_Tests extends BaseTests {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm("", DataList.usuariosTest(0).name, DataList.usuariosTest(0).lastName,
 				DataList.usuariosTest(0).password, DataList.usuariosTest(0).password);
-		PO_View.checkNoElement("text", signup_usuarioCorrecto);
+		PO_View.checkNoText(signup_usuarioCorrecto);
 	}
 
 	/** Registro de Usuario con datos inválidos: nombre vacío */
@@ -37,7 +37,7 @@ public class EjercicioW01_Tests extends BaseTests {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm("correo_prueba@email.com", "", DataList.usuariosTest(0).lastName,
 				DataList.usuariosTest(0).password, DataList.usuariosTest(0).password);
-		PO_View.checkNoElement("text", signup_usuarioCorrecto);
+		PO_View.checkNoText(signup_usuarioCorrecto);
 	}
 
 	/** Registro de Usuario con datos inválidos: apellidos vacío */
@@ -46,7 +46,7 @@ public class EjercicioW01_Tests extends BaseTests {
 		PO_NavView.clickOption("signup", "class", "btn btn-primary");
 		PO_RegisterView.fillForm("correo_prueba@email.com", DataList.usuariosTest(0).name, "",
 				DataList.usuariosTest(0).password, DataList.usuariosTest(0).password);
-		PO_View.checkNoElement("text", signup_usuarioCorrecto);
+		PO_View.checkNoText(signup_usuarioCorrecto);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class EjercicioW01_Tests extends BaseTests {
 		PO_RegisterView.fillForm("correo_prueba@email.com", DataList.usuariosTest(0).name,
 				DataList.usuariosTest(0).lastName, DataList.usuariosTest(0).password,
 				DataList.usuariosTest(0).password + "e");
-		PO_View.checkElement("text", signup_contraseniaErronea);
+		PO_View.checkText(signup_contraseniaErronea);
 
 	}
 
@@ -69,7 +69,7 @@ public class EjercicioW01_Tests extends BaseTests {
 		PO_RegisterView.fillForm(DataList.usuarios(0).email, DataList.usuariosTest(0).name,
 				DataList.usuariosTest(0).lastName, DataList.usuariosTest(0).password,
 				DataList.usuariosTest(0).password);
-		PO_View.checkElement("text", signup_emailRepetido);
+		PO_View.checkText(signup_emailRepetido);
 	}
 
 }

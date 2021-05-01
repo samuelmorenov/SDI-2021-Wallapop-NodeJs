@@ -24,8 +24,8 @@ public class EjercicioW06_Tests extends BaseTests {
 		PO_PostView.addNew(titulo);
 		
 		PO_NavView.accederPagina("offer-menu", "/offer/own");
-		PO_View.checkElement("text", own_titulo);
-		PO_View.checkElement("text", titulo);
+		PO_View.checkText(own_titulo);
+		PO_View.checkText(titulo);
 	}
 
 	/**
@@ -39,6 +39,6 @@ public class EjercicioW06_Tests extends BaseTests {
 
 		PO_NavView.accederPagina("offer-menu", "/offer/post");
 		PO_PostView.fillForm("", "Oferta Test Descripcion", "10,01");
-		PO_View.checkElement("text", post_incorrecto);
+		PO_View.checkText(post_incorrecto);
 	}
 }
