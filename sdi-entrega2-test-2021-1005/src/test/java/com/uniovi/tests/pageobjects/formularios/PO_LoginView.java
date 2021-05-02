@@ -29,6 +29,11 @@ public class PO_LoginView extends PO_Config {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(DataList.usuarios(0).email, DataList.usuarios(0).password);
 	}
+	
+
+	static public void loginApiUser0() {
+		PO_LoginView.fillForm(DataList.usuarios(0).email, DataList.usuarios(0).password);
+	}
 
 	public static void loginAdmin() {
 		PO_NavView.clickOption("login", "class", "btn btn-primary");

@@ -16,7 +16,7 @@ public class EjercicioC01_Tests extends BaseTestsApi {
 	 */
 	@Test
 	public void Prueba_30() {
-		PO_LoginView.fillForm(DataList.usuarios(0).email, DataList.usuarios(0).password);
+		PO_LoginView.loginApiUser0();
 		PO_View.checkText(login_correcto);
 	}
 

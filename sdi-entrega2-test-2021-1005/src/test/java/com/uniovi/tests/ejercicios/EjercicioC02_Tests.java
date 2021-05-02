@@ -1,10 +1,12 @@
 package com.uniovi.tests.ejercicios;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import com.uniovi.tests.data.DataList;
+import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EjercicioC02_Tests extends BaseTestsApi {
@@ -15,7 +17,14 @@ public class EjercicioC02_Tests extends BaseTestsApi {
 	 */
 	@Test
 	public void Prueba_33() {
-		assertTrue(false);
+		PO_LoginView.loginApiUser0();
+		PO_View.checkText(login_correcto);
+		
+		for(int i = 3; i< DataList.maxOffer; i++) {
+			PO_View.checkText(DataList.ofertas(i).title);
+		}
+		for(int i = 0; i< 0; i++) {
+			PO_View.checkNoText(DataList.ofertas(i).title);
+		}
 	}
-
 }
