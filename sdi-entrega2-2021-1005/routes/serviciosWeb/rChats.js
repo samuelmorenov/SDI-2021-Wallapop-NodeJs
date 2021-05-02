@@ -70,6 +70,37 @@ module.exports = function (app, gestorBD) {
         });
     });
 
+    app.get("/api/chat/:id", function (req, res) {
+        let user = res.usuario;
+        let id = gestorBD.mongo.ObjectID(req.params.id);
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+id);
+
+        var criterio = {offerId: id};
+        gestorBD.obtenerChats(criterio, function (chats, total) {
+            if (chats == null || chats.length !== 1) {
+                app.get('logger').error("BD: Error al obtener el chat");
+                res.status(500); //TODO: Revisar tipo
+                res.json({
+                    error: "Error al obtener el chat"
+                });
+            } else {
+                var criterio = {chatId: chats[0]._id};
+                gestorBD.obtenerChats(criterio, function (mensajes, total) {
+                    if (mensajes == null || mensajes.length === 0) {
+                        app.get('logger').error("BD: Error al obtener los mensajes");
+                        res.status(500); //TODO: Revisar tipo
+                        res.json({
+                            error: "Error al obtener el chat"
+                        });
+                    } else {
+                        res.status(200);
+                        res.send(JSON.stringify(mensajes));
+                    }
+            });
+        }
+        });
+    });
+
     function addNewChat(interestedUser, ownerUser, OfferId, callback){
         let chat = {
             interestedUser : interestedUser,

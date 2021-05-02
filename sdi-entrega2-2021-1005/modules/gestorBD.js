@@ -198,6 +198,27 @@ module.exports = {
         });
     },
 
+    obtenerChats: function (criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('chats');
+                collection.count(function (err, count) {
+
+                    collection.find(criterio).toArray(function (err, list) {
+                        if (err) {
+                            funcionCallback(null);
+                        } else {
+                            funcionCallback(list, count);
+                        }
+                        db.close();
+                    });
+                });
+            }
+        });
+    },
+
     //MENSAJES
     insertarMensaje: function (mensaje, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
@@ -212,6 +233,27 @@ module.exports = {
                         funcionCallback(result.ops[0]._id);
                     }
                     db.close();
+                });
+            }
+        });
+    },
+
+    obtenerMensajes: function (criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.count(function (err, count) {
+
+                    collection.find(criterio).toArray(function (err, list) {
+                        if (err) {
+                            funcionCallback(null);
+                        } else {
+                            funcionCallback(list, count);
+                        }
+                        db.close();
+                    });
                 });
             }
         });
