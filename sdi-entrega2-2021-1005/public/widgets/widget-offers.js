@@ -11,7 +11,6 @@ function loadOffers() {
         dataType: 'json',
         headers: {"token": token},
         success: function (respuesta) {
-            console.log("success");
             offers = respuesta;
             offersTable(offers);
         },
@@ -30,6 +29,7 @@ function offersTable(offers) {
             "<td>" + offers[i].title + "</td>" +
             "<td>" + offers[i].description + "</td>" +
             "<td>" + offers[i].price + "</td>" +
+            "<td>" + offers[i].creator + "</td>" +
             "<td>" + "</td>" +
             "</tr>"
         );
