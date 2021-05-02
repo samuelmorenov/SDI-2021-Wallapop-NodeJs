@@ -26,7 +26,7 @@ module.exports = function (app, gestorBD) {
                 //Buscamos para saber si existe un chat creado
                 criterio = {offerId: gestorBD.mongo.ObjectID(oferta._id)};
                 gestorBD.obtenerChats(criterio, function (chats, total) {
-                    if (chats == null || chats.length !== 0) {
+                    if (chats == null || chats.length === 0) {
                         app.get('logger').debug("No existe el chat creado");
 
                         if(oferta.creator === user){
@@ -37,7 +37,7 @@ module.exports = function (app, gestorBD) {
                             });
                         }
                         else{
-                            app.get('logger').error("El usuario no es el creador de la oferta, se procede a crear un chat");
+                            app.get('logger').debug("El usuario no es el creador de la oferta, se procede a crear un chat");
 
                             addNewChat(user.email, oferta.creator, oferta._id, function(chatId){
                                 if(chatId == null){
@@ -71,19 +71,26 @@ module.exports = function (app, gestorBD) {
     });
 
     app.get("/api/chat/:id", function (req, res) {
+        app.get('logger').info("Se ha entrado en el metodo get de /api/chat/");
         let user = res.usuario;
         let id = gestorBD.mongo.ObjectID(req.params.id);
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+id);
 
         var criterio = {offerId: id};
         gestorBD.obtenerChats(criterio, function (chats, total) {
-            if (chats == null || chats.length !== 1) {
+            if (chats == null) {
                 app.get('logger').error("BD: Error al obtener el chat");
                 res.status(500); //TODO: Revisar tipo
                 res.json({
                     error: "Error al obtener el chat"
                 });
-            } else {
+            } if(chats.length !== 1){
+                app.get('logger').debug("No existe un chat anterior.");
+                res.status(500); //TODO: Revisar tipo
+                res.json({
+                    error: "No existe un chat anterior."
+                });
+            }else {
                 var criterio = {chatId: chats[0]._id};
                 gestorBD.obtenerChats(criterio, function (mensajes, total) {
                     if (mensajes == null || mensajes.length === 0) {

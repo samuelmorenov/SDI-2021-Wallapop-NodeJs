@@ -13,7 +13,7 @@ module.exports = function (app, gestorBD) {
 
             if (ofertas == null) {
                 app.get('logger').error("BD: Error al obtener la lista de ofertas");
-                res.status(500);
+                res.status(500);//TODO: Revisar tipo
                 res.json({
                     error: "Error al obtener la lista de ofertas"
                 });

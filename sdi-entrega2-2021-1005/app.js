@@ -132,6 +132,7 @@ app.use("/offer/*", routerUsuarioSession);
 
 // Aplicar RouterUsuarioSession para la Aplicacion web
 app.use('/api/offer/all', routerUsuarioToken);
+app.use('/api/chat/*', routerUsuarioToken);
 
 // Establecimiento de Rutas
 //Rutas para la Aplicacion web
@@ -142,6 +143,7 @@ require("./routes/aplicacionWeb/rOffers.js")(app, swig, gestorBD);
 //Rutas para los Servicios Web
 require("./routes/serviciosWeb/rUsers")(app, gestorBD);
 require("./routes/serviciosWeb/rOffers")(app, gestorBD);
+require("./routes/serviciosWeb/rChats")(app, gestorBD);
 
 // Rutas para los Test
 require("./routes/test/rTests.js")(app, mongo);
