@@ -30,8 +30,26 @@ function offersTable(offers) {
             "<td>" + offers[i].description + "</td>" +
             "<td>" + offers[i].price + "</td>" +
             "<td>" + offers[i].creator + "</td>" +
-            "<td>" + "</td>" +
+            "<td>" + this.createButton(offers[i]) + "</td>" +
             "</tr>"
         );
     }
+}
+
+function createButton(offers) {
+    var id = offers._id;
+    var parametros = "\'" + id + "\'";
+    var button =
+        "<button type='submit' className='btn btn-default' " +
+        "id='button-chat-" + id + "' " +
+        "onclick=chat(" + parametros + ")>" +
+        "✉</button>";
+    return button;
+}
+
+function chat(id) {
+    chat = {
+        offerId : id
+    };
+    $("#contenedor-principal").load("widgets/widget-chat.html");
 }
