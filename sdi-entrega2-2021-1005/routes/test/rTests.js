@@ -9,6 +9,7 @@ module.exports = function (app, mongo) {
         //Abrimos la conexion con mongo
         mongo.MongoClient.connect(app.get('db'), function (err, db) {
             if (err) {
+                app.get('logger').error("Error al resetear la BD: "+err);
                 res.send(String("Error al resetear la BD."));
             } else {
                 
@@ -18,10 +19,10 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD.");
+                        app.get('logger').error("Error al resetear la BD: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
-                });
+                    else{
 
                 //Añadimos los usuarios
                 let seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -43,10 +44,10 @@ module.exports = function (app, mongo) {
                 collection.insertMany(usuarios, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD.");
+                        app.get('logger').error("Error al resetear la BD: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
-                });
+                    else {
 
                 //Eliminamos todas las ofertas del sistema
                 collection = db.collection('ofertas');
@@ -54,10 +55,10 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD.");
+                        app.get('logger').error("Error al resetear la BD: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
-                });
+                    else {
 
                 let pedro = usuarios[1].email;
                 let maria = usuarios[2].email;
@@ -127,10 +128,10 @@ module.exports = function (app, mongo) {
                 collection.insertMany(ofertas, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD.");
+                        app.get('logger').error("Error al resetear la BD: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
-                });
+                    else{
 
                 //Eliminamos todas los chat del sistema
                 collection = db.collection('chats');
@@ -138,15 +139,20 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD.");
+                        app.get('logger').error("Error al resetear la BD: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
-                });
+                    else{
 
                 db.close();
                 app.get('logger').info("Base de datos reiniciada.");
                 res.send(String("Base de datos reiniciada."));
             }
         });
+        }});
+        }});
+        }});
+        }});
+        }});
     })
 };
