@@ -38,7 +38,7 @@ module.exports = function (app, gestorBD) {
                     }
                     else if (chats.length !== 0) {
                         app.get('logger').debug("Ya existe una conversacion anterior");
-                        addNewChat(res, offerObjectID, user, oferta.creator, texto);
+                        addNewChat(res, offerObjectID, user, oferta.creator,user, texto);
                     } else {
                         app.get('logger').debug("No existe el chat creado");
 
@@ -51,7 +51,7 @@ module.exports = function (app, gestorBD) {
                         }
                         else{
                             app.get('logger').debug("El usuario no es el creador de la oferta, se procede a crear un chat");
-                            addNewChat(res, offerObjectID, user, oferta.creator, texto);
+                            addNewChat(res, offerObjectID, user, oferta.creator,user, texto);
                         }
                     }
                 });
@@ -89,10 +89,11 @@ module.exports = function (app, gestorBD) {
         });
     });
 
-    function addNewChat(res, offerId, interestedUser, ownerUser, text){
+    function addNewChat(res, offerId, interestedUser, ownerUser, user, text){
         let chat = {
             interestedUser : interestedUser,
             ownerUser : ownerUser,
+            writerUser : user,
             offerId : gestorBD.mongo.ObjectID(offerId),
             text: text,
             date: new Date(),
