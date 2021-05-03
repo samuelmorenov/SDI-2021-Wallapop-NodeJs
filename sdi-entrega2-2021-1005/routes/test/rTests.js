@@ -124,6 +124,7 @@ module.exports = function (app, mongo) {
                         buyer: lucas
                     }];
 
+                let ofertasInsertadas = null;
                 collection = db.collection('ofertas');
                 collection.insertMany(ofertas, function (err, result) {
                     if (err) {
@@ -132,6 +133,7 @@ module.exports = function (app, mongo) {
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
+                let ofertasInsertadas = result.insertedIds;
 
                 //Eliminamos todas los chat del sistema
                 collection = db.collection('chats');
@@ -144,11 +146,49 @@ module.exports = function (app, mongo) {
                     }
                     else{
 
+                //Añadimos las ofertas
+                let oferta = ofertasInsertadas[5];
+                let chats =
+                    [{
+                        interestedUser : pedro,
+                        ownerUser : maria,
+                        writerUser : pedro,
+                        offerId : oferta,
+                        text: "Hola, buenas. ¿Habria alguna posibilidad de que se bajara el precio?",
+                        date: new Date(),
+                        read: false
+                    },{
+                        interestedUser : pedro,
+                        ownerUser : maria,
+                        writerUser : maria,
+                        offerId : oferta,
+                        text: "Hola. Buenas tardes.",
+                        date: new Date(),
+                        read: false
+                    },{
+                        interestedUser : pedro,
+                        ownerUser : maria,
+                        writerUser : maria,
+                        offerId : oferta,
+                        text: "Lo siento mucho, pero el precio no es negociable.",
+                        date: new Date(),
+                        read: false
+                    }];
+                collection = db.collection('chats');
+                collection.insertMany(chats, function (err, result) {
+                    if (err) {
+                        db.close();
+                        app.get('logger').error("Error al resetear la BD: "+err);
+                        res.send(String("Error al resetear la BD."));
+                    }
+                    else{
+
                 db.close();
                 app.get('logger').info("Base de datos reiniciada.");
                 res.send(String("Base de datos reiniciada."));
             }
         });
+        }});
         }});
         }});
         }});
