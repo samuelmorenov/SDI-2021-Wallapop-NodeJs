@@ -218,45 +218,4 @@ module.exports = {
             }
         });
     },
-
-    //MENSAJES
-    insertarMensaje: function (mensaje, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                let collection = db.collection('mensajes');
-                collection.insert(mensaje, function (err, result) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(result.ops[0]._id);
-                    }
-                    db.close();
-                });
-            }
-        });
-    },
-
-    obtenerMensajes: function (criterio, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                let collection = db.collection('mensajes');
-                collection.count(function (err, count) {
-
-                    collection.find(criterio).toArray(function (err, list) {
-                        if (err) {
-                            funcionCallback(null);
-                        } else {
-                            funcionCallback(list, count);
-                        }
-                        db.close();
-                    });
-                });
-            }
-        });
-    },
-
 };
