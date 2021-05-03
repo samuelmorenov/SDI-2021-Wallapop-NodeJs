@@ -25,7 +25,6 @@ module.exports = function (app, gestorBD) {
                         tiempo: Date.now() / 1000
                     },
                     "secreto");
-                app.get('logger').debug("Token: "+token);
                 res.status(200);
                 res.json(
                     {

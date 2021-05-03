@@ -4,11 +4,11 @@ module.exports = function (app, gestorBD) {
         let user = res.usuario;
         app.get('logger').info(user + " ha entrado en el metodo post de /api/chat/add");
 
-        let id = req.body.offerId;
+        let offerId = gestorBD.mongo.ObjectID(req.body.offerId);
         let texto = req.body.text;
 
         let criterio = {
-            _id: gestorBD.mongo.ObjectID(id)
+            _id: offerId
         };
 
         //Busqueda de la oferta para toma de datos
@@ -47,9 +47,9 @@ module.exports = function (app, gestorBD) {
                                         error: "Error al crear el chat"
                                     });
                                 } else{
-                                    app.get('logger').info("Chat creado con exito: "+id);
-                                    addNewMensaje(chatId, texto, function (result){
-                                        app.get('logger').info("Mensaje creado con exito: "+result);
+                                    app.get('logger').info("Chat creado con exito: "+chatId);
+                                    addNewMensaje(chatId, texto, function (idMensaje){
+                                        app.get('logger').info("Mensaje creado con exito: "+idMensaje);
                                         res.status(201);
                                         res.json({mensaje: "Mensaje enviado"});
                                     });
@@ -59,8 +59,8 @@ module.exports = function (app, gestorBD) {
                     } else {
                         let chatId = chats[0]._id;
                         app.get('logger').debug("Se ha obtenido la oferta con exito: "+chatId);
-                        addNewMensaje(chatId, texto, function (result){
-                            app.get('logger').info("Mensaje creado con exito: "+result);
+                        addNewMensaje(chatId, texto, function (idMensaje){
+                            app.get('logger').info("Mensaje creado con exito: "+idMensaje);
                             res.status(201);
                             res.json({mensaje: "Mensaje enviado"});
                         });
@@ -71,12 +71,11 @@ module.exports = function (app, gestorBD) {
     });
 
     app.get("/api/chat/:id", function (req, res) {
-        app.get('logger').info("Se ha entrado en el metodo get de /api/chat/");
         let user = res.usuario;
-        let id = gestorBD.mongo.ObjectID(req.params.id);
-        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+id);
+        let offerId = gestorBD.mongo.ObjectID(req.params.id);
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+offerId);
 
-        var criterio = {offerId: id};
+        var criterio = {offerId: offerId};
         gestorBD.obtenerChats(criterio, function (chats, total) {
             if (chats == null) {
                 app.get('logger').error("BD: Error al obtener el chat");
@@ -85,19 +84,25 @@ module.exports = function (app, gestorBD) {
                     error: "Error al obtener el chat"
                 });
             } if(chats.length !== 1){
-                app.get('logger').debug("No existe un chat anterior.");
+                app.get('logger').debug("No existe un chat(offerId = "+offerId+") anterior. chats.length = "+chats.length);
                 res.status(500); //TODO: Revisar tipo
                 res.json({
                     error: "No existe un chat anterior."
                 });
             }else {
                 var criterio = {chatId: chats[0]._id};
-                gestorBD.obtenerChats(criterio, function (mensajes, total) {
-                    if (mensajes == null || mensajes.length === 0) {
+                gestorBD.obtenerMensajes(criterio, function (mensajes, total) {
+                    if (mensajes == null){
                         app.get('logger').error("BD: Error al obtener los mensajes");
                         res.status(500); //TODO: Revisar tipo
                         res.json({
                             error: "Error al obtener el chat"
+                        });
+                    } else if(mensajes.length === 0) {
+                        app.get('logger').error("No hay mensajes");
+                        res.status(500); //TODO: Revisar tipo
+                        res.json({
+                            error: "No hay mensajes"
                         });
                     } else {
                         res.status(200);
@@ -108,14 +113,15 @@ module.exports = function (app, gestorBD) {
         });
     });
 
-    function addNewChat(interestedUser, ownerUser, OfferId, callback){
+    function addNewChat(interestedUser, ownerUser, offerId, callback){
         let chat = {
             interestedUser : interestedUser,
             ownerUser : ownerUser,
-            OfferId : OfferId
+            offerId : offerId
         }
 
         gestorBD.insertarChat(chat, function (id) {
+            app.get('logger').debug("Chat insertado, offerId = "+offerId+", ID creado = "+id);
             callback(id);
         });
     }
@@ -128,6 +134,7 @@ module.exports = function (app, gestorBD) {
             read: false
         };
         gestorBD.insertarMensaje(mensaje, function (id) {
+            app.get('logger').debug("Mensaje insertado, chatId = "+chatId+", ID creado = "+id);
             callback(id);
         });
     };

@@ -132,6 +132,28 @@ module.exports = function (app, mongo) {
                     }
                 });
 
+                //Eliminamos todas los mensajes del sistema
+                collection = db.collection('mensajes');
+                criterio = {};
+                collection.remove(criterio, function (err, result) {
+                    if (err) {
+                        db.close();
+                        app.get('logger').error("Error al resetear la BD.");
+                        res.send(String("Error al resetear la BD."));
+                    }
+                });
+
+                //Eliminamos todas los chat del sistema
+                collection = db.collection('chats');
+                criterio = {};
+                collection.remove(criterio, function (err, result) {
+                    if (err) {
+                        db.close();
+                        app.get('logger').error("Error al resetear la BD.");
+                        res.send(String("Error al resetear la BD."));
+                    }
+                });
+
                 db.close();
                 app.get('logger').info("Base de datos reiniciada.");
                 res.send(String("Base de datos reiniciada."));
