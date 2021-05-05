@@ -40,7 +40,7 @@ function createButton(offers) {
     var id = offers._id;
     var parametros = "\'" + id + "\'";
     var button =
-        "<button type='submit' className='btn btn-default' " +
+        "<button type='submit' class='btn btn-default chat' " +
         "id='button-chat-" + id + "' " +
         "onclick=chat(" + parametros + ")>" +
         "✉</button>";
