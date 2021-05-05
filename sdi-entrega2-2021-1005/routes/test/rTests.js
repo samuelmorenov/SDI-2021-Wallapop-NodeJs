@@ -182,17 +182,16 @@ module.exports = function (app, mongo) {
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
-
-                db.close();
-                app.get('logger').info("Base de datos reiniciada.");
-                res.send(String("Base de datos reiniciada."));
-            }
-        });
-        }});
-        }});
-        }});
-        }});
-        }});
+                        db.close();
+                        app.get('logger').info("Base de datos reiniciada.");
+                        res.send(String("Base de datos reiniciada."));
+                    }
+                });
+            }});
+            }});
+            }});
+            }});
+            }});
         }});
     })
 };

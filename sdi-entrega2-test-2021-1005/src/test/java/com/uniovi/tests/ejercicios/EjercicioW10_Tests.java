@@ -1,13 +1,11 @@
 package com.uniovi.tests.ejercicios;
 
-import java.util.List;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.WebElement;
 
 import com.uniovi.tests.data.DataList;
+import com.uniovi.tests.pageobjects.PO_Click;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_Search;
 import com.uniovi.tests.pageobjects.PO_View;
@@ -27,8 +25,8 @@ public class EjercicioW10_Tests extends BaseTests {
 		PO_NavView.accederPagina("offer-menu", "/offer/all");
 
 		PO_Search.search(DataList.ofertas(3).title);
-		List<WebElement> botones = PO_View.checkElement("class", "comprar");
-		botones.get(0).click();
+		
+		PO_Click.clickClass("comprar");
 		PO_View.checkText("Saldo: 50");
 
 	}
@@ -44,9 +42,7 @@ public class EjercicioW10_Tests extends BaseTests {
 		PO_NavView.accederPagina("offer-menu", "/offer/all");
 		PO_Search.search(DataList.ofertas(4).title);
 
-		List<WebElement> botones = PO_View.checkElement("class", "comprar");
-		botones.get(0).click();
-		
+		PO_Click.clickClass("comprar");
 		PO_View.checkText("Saldo: 0");
 	}
 
@@ -61,8 +57,7 @@ public class EjercicioW10_Tests extends BaseTests {
 		PO_NavView.accederPagina("offer-menu", "/offer/all");
 		PO_Search.search(DataList.ofertas(5).title);
 
-		List<WebElement> botones = PO_View.checkElement("class", "comprar");
-		botones.get(0).click();
+		PO_Click.clickClass("comprar");
 		PO_View.checkText(buy_saldoInsuficiente);
 	}
 

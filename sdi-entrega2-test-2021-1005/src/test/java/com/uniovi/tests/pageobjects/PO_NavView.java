@@ -44,37 +44,13 @@ public class PO_NavView {
 		elementos.get(0).click();
 	}
 
-	/**
-	 * Selecciona el enlace de idioma correspondiente al texto textLanguage
-	 * 
-	 * @param driver:       apuntando al navegador abierto actualmente.
-	 * @param textLanguage: el texto que aparece en el enlace de idioma ("English" o
-	 *                      "Spanish")
-	 */
-	public static void changeIdiom(String textLanguage) {
-		// clickamos la opción Idioma.
-		List<WebElement> elementos = PO_View.checkElement("id", "btnLanguage");
-		elementos.get(0).click();
-		// Esperamos a que aparezca el menú de opciones.
-		elementos = PO_View.checkElement("id", "languageDropdownMenuButton");
-		// SeleniumUtils.esperarSegundos(2);
-		// CLickamos la opción Inglés partiendo de la opción Español
-		elementos = PO_View.checkElement("id", textLanguage);
-		elementos.get(0).click();
-	}
-
-	static public void logout() {		
+	static public void logout() {
 		List<WebElement> elementos = PO_View.checkElement("@href", "logout");
 		// Tiene que haber un sólo elemento.
 		assertTrue(elementos.size() == 1);
 		// Ahora lo clickamos
 		elementos.get(0).click();
 	}
-	
-	public static void clickButton(String textoBoton) {
-		List<WebElement> elementos = PO_View.checkText(textoBoton);
-		assertTrue(elementos.size() == 1);
-		elementos.get(0).click();
 
-	}
+
 }

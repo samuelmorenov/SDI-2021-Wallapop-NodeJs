@@ -1,13 +1,11 @@
 package com.uniovi.tests.ejercicios;
 
-import java.util.List;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.WebElement;
 
 import com.uniovi.tests.data.DataList;
+import com.uniovi.tests.pageobjects.PO_Click;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
@@ -24,10 +22,9 @@ public class EjercicioW05_Tests extends BaseTests {
 		PO_LoginView.loginAdmin();
 		PO_NavView.accederPagina("user-list", "/user/list");
 		
-		List<WebElement> checkboxs = PO_View.checkElement("class", "checkbox");
-		checkboxs.get(0).click();
+		PO_Click.clickClass("checkbox", 0);
 		
-		PO_NavView.clickButton("Eliminar");
+		PO_Click.clickText("Eliminar");
 
 		PO_View.checkText(list_titulo);
 		PO_View.checkNoText(DataList.usuarios(0).email);
@@ -42,10 +39,9 @@ public class EjercicioW05_Tests extends BaseTests {
 		PO_LoginView.loginAdmin();
 		PO_NavView.accederPagina("user-list", "/user/list");
 		
-		List<WebElement> checkboxs = PO_View.checkElement("class", "checkbox");
-		checkboxs.get(checkboxs.size()-1).click();
-		
-		PO_NavView.clickButton("Eliminar");
+		PO_Click.clickClass("checkbox", DataList.maxUser-1);
+
+		PO_Click.clickText("Eliminar");
 
 		PO_View.checkText(list_titulo);
 		PO_View.checkNoText(DataList.usuarios(DataList.maxUser-1).email);
@@ -60,12 +56,11 @@ public class EjercicioW05_Tests extends BaseTests {
 		PO_LoginView.loginAdmin();
 		PO_NavView.accederPagina("user-list", "/user/list");
 		
-		List<WebElement> checkboxs = PO_View.checkElement("class", "checkbox");
-		checkboxs.get(0).click();
-		checkboxs.get(1).click();
-		checkboxs.get(2).click();
-		
-		PO_NavView.clickButton("Eliminar");
+		PO_Click.clickClass("checkbox", 0);
+		PO_Click.clickClass("checkbox", 1);
+		PO_Click.clickClass("checkbox", 2);
+
+		PO_Click.clickText("Eliminar");
 
 		PO_View.checkText(list_titulo);
 		PO_View.checkNoText(DataList.usuarios(0).email);
