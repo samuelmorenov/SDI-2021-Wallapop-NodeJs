@@ -12,10 +12,12 @@ function loadOffers() {
         headers: {"token": token},
         success: function (respuesta) {
             offers = respuesta;
+            chatActive = false;
             offersTable(offers);
         },
         error: function (error) {
             console.log("error");
+            chatActive = false;
             $("#contenedor-principal").load("widgets/" + "widget-login.html");
         }
     });
@@ -51,5 +53,6 @@ function chat(id) {
     chat = {
         offerId : id
     };
+    chatActive = true;
     $("#contenedor-principal").load("widgets/widget-chat.html");
 }

@@ -9,6 +9,7 @@ $('#boton-login').click(function () {
         },
         dataType: 'json',
         success: function (respuesta) {
+            chatActive = false;
             token = respuesta.token;
             user = $("#email").val();
             Cookies.set('token', respuesta.token);
@@ -17,6 +18,7 @@ $('#boton-login').click(function () {
         error: function (error) {
             Cookies.remove('token');
             user = "";
+            chatActive = false;
             $("#widget-login")
                 .prepend("<div class='alert alert-danger'>La combinacion usuario-contraseña es incorrecta.</div>");
         }

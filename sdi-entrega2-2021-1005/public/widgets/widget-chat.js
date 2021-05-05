@@ -1,6 +1,12 @@
 window.history.pushState("", "", "/cliente.html?w=chat");
 
-this.loadChat();
+var me = this;
+//this.loadChat();
+me.setInterval(function(){
+    if(chatActive){
+        me.loadChat() // this will run after every 1 seconds
+    }
+}, 1000);
 
 function loadChat() {
     $.ajax({
@@ -20,6 +26,7 @@ function loadChat() {
             }
         },
         error: function (error) {
+            chatActive = false;
             console.log("error");
             $("#tbody-chat").empty();
         }
