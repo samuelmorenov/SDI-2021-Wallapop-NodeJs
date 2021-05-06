@@ -61,6 +61,13 @@ module.exports = function (app, gestorBD) {
 
     app.get("/api/chat/:id", function (req, res) {
         let user = res.usuario;
+        if(req.params == null){
+            app.get('logger').error("BD: Error al obtener el chat");
+            res.status(500); //TODO: Revisar tipo
+            res.json({
+                error: "Error al obtener el chat"
+            });
+        }
         let offerObjectID = gestorBD.mongo.ObjectID(req.params.id);
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+offerObjectID);
 
@@ -85,6 +92,42 @@ module.exports = function (app, gestorBD) {
                 app.get('logger').debug("Se han encontrado un total de mensajes de = "+chats.length);
                 res.status(200);
                 res.send(JSON.stringify(chats));
+            }
+        });
+    });
+
+    app.get("/api/chat/conversation", function (req, res) {
+        let user = res.usuario;
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversation");
+
+        let criterioChats = { interestedUser: user };
+        gestorBD.obtenerChats(criterioChats, function (chatsInterested, total) {
+            if (chatsInterested == null) {
+                app.get('logger').error("BD: Error al obtener el chat");
+                res.status(500); //TODO: Revisar tipo
+                res.json({
+                    error: "Error al obtener el chat"
+                });
+            } else {
+                let criterioChats = { ownerUser: user };
+                gestorBD.obtenerChats(criterioChats, function (chatsOwner, total) {
+                    if (chatsOwner == null) {
+                        app.get('logger').error("BD: Error al obtener el chat");
+                        res.status(500); //TODO: Revisar tipo
+                        res.json({
+                            error: "Error al obtener el chat"
+                        });
+                    } else {
+                        let o = JSON.stringify(chatsOwner);
+                        let i = JSON.stringify(chatsInterested);
+
+
+                        res.status(500); //TODO: Revisar tipo
+                        res.json({
+                            error: "Error al obtener el chat"
+                        });
+                    }
+                });
             }
         });
     });

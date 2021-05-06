@@ -3,7 +3,6 @@ window.history.pushState("", "", "/cliente.html?w=offers");
 this.loadOffers();
 
 function loadOffers() {
-    console.log("loadOffers");
     $.ajax({
         url: URLbase + "/offer/all",
         type: "GET",
