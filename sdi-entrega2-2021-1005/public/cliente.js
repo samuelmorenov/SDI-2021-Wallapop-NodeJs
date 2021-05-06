@@ -9,3 +9,8 @@ function widgetOfertas() {
     chatActive = false;
     $("#contenedor-principal").load("widgets/widget-offers.html");
 }
+
+function widgetConversaciones() {
+    chatActive = false;
+    $("#contenedor-principal").load("widgets/witget-conversations.html");
+}
