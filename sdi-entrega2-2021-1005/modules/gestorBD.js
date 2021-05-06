@@ -251,4 +251,55 @@ module.exports = {
             }
         });
     },
+
+    obtenerConversaciones: function (criterio, funcionCallback) {
+        let me = this;
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                me.app.get('logger').error(err.message);
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('chats');
+                collection.count(function (err, count) {
+
+                    collection.distinct("offerId", criterio, function (err, list) {
+                        if (err) {
+                            me.app.get('logger').error(err.message);
+                            funcionCallback(null);
+                        } else {
+                            funcionCallback(list, count);
+                        }
+                        db.close();
+                    });
+                });
+            }
+        });
+    },
+
+    obtenerConversaciones2: function (criterio, funcionCallback) {
+        let me = this;
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                me.app.get('logger').error(err.message);
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('chats');
+                collection.count(function (err, count) {
+
+                    collection.aggregate( [
+                        { $match: criterio },
+                        { $group: { _id: { offerId: "$offerId", interestedUser: "$interestedUser" } } }
+                    ], function (err, list){
+                        if (err) {
+                            me.app.get('logger').error(err.message);
+                            funcionCallback(null);
+                        } else {
+                            funcionCallback(list, count);
+                        }
+                        db.close();
+                    } );
+                });
+            }
+        });
+    },
 };
