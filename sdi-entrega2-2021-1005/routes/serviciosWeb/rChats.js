@@ -1,11 +1,21 @@
 module.exports = function (app, gestorBD) {
 
     app.post("/api/chat/add", function (req, res) {
-        let user = res.usuario;
+        let user = null;
+        let offerObjectID = null;
+        let texto = null;
+        try {
+            user = res.usuario;
+            offerObjectID = gestorBD.mongo.ObjectID(req.body.offerId);
+            texto = req.body.text;
+        } catch (error) {
+            app.get('logger').error("Error al obtener los parametros en /api/chat/add");
+            res.status(500); //TODO: Revisar tipo
+            res.json({
+                error: "Error al cargar los datos"
+            });
+        }
         app.get('logger').info(user + " ha entrado en el metodo post de /api/chat/add");
-
-        let offerObjectID = gestorBD.mongo.ObjectID(req.body.offerId);
-        let texto = req.body.text;
 
         let criterioOfertas = {
             _id: offerObjectID
@@ -60,15 +70,18 @@ module.exports = function (app, gestorBD) {
     });
 
     app.get("/api/chat/:id", function (req, res) {
-        let user = res.usuario;
-        if(req.params == null){
-            app.get('logger').error("BD: Error al obtener el chat");
+        let user = null;
+        let offerObjectID = null;
+        try {
+            user = res.usuario;
+            offerObjectID = gestorBD.mongo.ObjectID(req.params.id);
+        } catch (error) {
+            app.get('logger').error("Error al obtener los parametros en /api/chat/");
             res.status(500); //TODO: Revisar tipo
             res.json({
-                error: "Error al obtener el chat"
+                error: "Error al cargar los datos"
             });
         }
-        let offerObjectID = gestorBD.mongo.ObjectID(req.params.id);
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+offerObjectID);
 
         let aux1 = { offerId: offerObjectID };
@@ -96,9 +109,18 @@ module.exports = function (app, gestorBD) {
         });
     });
 
-    app.get("/api/chat/conversation", function (req, res) {
-        let user = res.usuario;
-        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversation");
+    app.get("/api/chat/conversations", function (req, res) {
+        let user = null;
+        try {
+            user = res.usuario;
+        } catch (error) {
+            app.get('logger').error("Error al obtener los parametros en /api/chat/conversations");
+            res.status(500); //TODO: Revisar tipo
+            res.json({
+                error: "Error al cargar los datos"
+            });
+        }
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversations");
 
         let criterioChats = { interestedUser: user };
         gestorBD.obtenerChats(criterioChats, function (chatsInterested, total) {
