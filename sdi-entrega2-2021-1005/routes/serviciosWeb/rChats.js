@@ -5,7 +5,7 @@ module.exports = function (app, gestorBD) {
         let offerObjectID = null;
         let texto = null;
         try {
-            user = res.usuario;
+            user = res.usuario.toString();
             offerObjectID = gestorBD.mongo.ObjectID(req.body.offerId);
             texto = req.body.text;
         } catch (error) {
@@ -69,11 +69,59 @@ module.exports = function (app, gestorBD) {
         });
     });
 
+    app.get("/api/chat/conversations", function (req, res) {
+        var user = null;
+        try {
+            user = res.usuario.toString();
+        } catch (error) {
+            app.get('logger').error("Error al obtener los parametros en /api/chat/conversations");
+            res.status(500); //TODO: Revisar tipo
+            res.json({
+                error: "Error al cargar los datos"
+            });
+        }
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversations");
+
+        let criterio = {  $or: [ {interestedUser: user}, {ownerUser: user},]};
+        gestorBD.obtenerConversaciones2(criterio, function (result, total) {
+            if (result == null) {
+                app.get('logger').error("BD: Error al obtener el chat");
+                res.status(500); //TODO: Revisar tipo
+                res.json({
+                    error: "Error al obtener el chat"
+                });
+            } else {
+                let idOfertas = new Array(result.length);
+                for(let i = 0; i < result.length; i++){
+                    idOfertas[i] = result[i]._id.offerId;
+                }
+                let criterio = {
+                    offerId: { $in: idOfertas }
+                };
+
+                gestorBD.obtenerOfertas(criterio,function (ofertas, total) {
+                    if (ofertas == null) {
+                        app.get('logger').error("BD: Error al obtener la lista de ofertas");
+                        res.status(500);//TODO: Revisar tipo
+                        res.json({
+                            error: "Error al obtener la lista de ofertas"
+                        });
+                    } else {
+                        app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+total);
+
+                        res.status(200);
+                        res.send(JSON.stringify(ofertas));
+                    }
+                });
+            }
+        });
+    });
+
     app.get("/api/chat/:id", function (req, res) {
         let user = null;
         let offerObjectID = null;
         try {
-            user = res.usuario;
+            user = res.usuario.toString();
             offerObjectID = gestorBD.mongo.ObjectID(req.params.id);
         } catch (error) {
             app.get('logger').error("Error al obtener los parametros en /api/chat/");
@@ -94,7 +142,7 @@ module.exports = function (app, gestorBD) {
                 res.json({
                     error: "Error al obtener el chat"
                 });
-            } if(chats.length === 0){
+            } else if(chats.length === 0){
                 app.get('logger').debug("No existen chats con offerId = "+offerObjectID);
                 res.status(500); //TODO: Revisar tipo
                 res.json({
@@ -109,50 +157,7 @@ module.exports = function (app, gestorBD) {
         });
     });
 
-    app.get("/api/chat/conversations", function (req, res) {
-        let user = null;
-        try {
-            user = res.usuario;
-        } catch (error) {
-            app.get('logger').error("Error al obtener los parametros en /api/chat/conversations");
-            res.status(500); //TODO: Revisar tipo
-            res.json({
-                error: "Error al cargar los datos"
-            });
-        }
-        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversations");
 
-        let criterioChats = { interestedUser: user };
-        gestorBD.obtenerChats(criterioChats, function (chatsInterested, total) {
-            if (chatsInterested == null) {
-                app.get('logger').error("BD: Error al obtener el chat");
-                res.status(500); //TODO: Revisar tipo
-                res.json({
-                    error: "Error al obtener el chat"
-                });
-            } else {
-                let criterioChats = { ownerUser: user };
-                gestorBD.obtenerChats(criterioChats, function (chatsOwner, total) {
-                    if (chatsOwner == null) {
-                        app.get('logger').error("BD: Error al obtener el chat");
-                        res.status(500); //TODO: Revisar tipo
-                        res.json({
-                            error: "Error al obtener el chat"
-                        });
-                    } else {
-                        let o = JSON.stringify(chatsOwner);
-                        let i = JSON.stringify(chatsInterested);
-
-
-                        res.status(500); //TODO: Revisar tipo
-                        res.json({
-                            error: "Error al obtener el chat"
-                        });
-                    }
-                });
-            }
-        });
-    });
 
     function addNewChat(res, offerId, interestedUser, ownerUser, user, text){
         let chat = {
