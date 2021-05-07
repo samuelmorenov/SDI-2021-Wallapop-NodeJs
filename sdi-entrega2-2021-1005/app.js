@@ -131,7 +131,7 @@ app.use("/user/*", routerUsuarioSession);
 app.use("/offer/*", routerUsuarioSession);
 
 // Aplicar RouterUsuarioSession para la Aplicacion web
-app.use('/api/offer/all', routerUsuarioToken);
+app.use('/api/offer/*', routerUsuarioToken);
 app.use('/api/chat/*', routerUsuarioToken);
 
 // Establecimiento de Rutas

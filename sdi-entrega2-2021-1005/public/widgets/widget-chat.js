@@ -19,6 +19,7 @@ function loadChat() {
             console.log("success");
             $("#tbody-chat").empty();
             if(respuesta == null || respuesta.length == 0){
+                chatActive = false;
                 $("#tbody-chat").empty();
             }else{
                 messages = respuesta;
@@ -68,9 +69,11 @@ $('#button-chat').click(function () {
         dataType: 'json',
         headers: {"token": token},
         success: function (respuesta) {
+            chatActive = true;
             $("#contenedor-principal").load("widgets/widget-chat.html");
         },
         error: function (error) {
+            chatActive = false;
             Cookies.remove('token');
             $("#widget-login")
                 .prepend("<div class='alert alert-danger'>Error de envio.</div>");
