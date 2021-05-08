@@ -10,7 +10,7 @@ me.setInterval(function(){
 
 function loadChat() {
     $.ajax({
-        url: URLbase + "/chat/"+chat.offerId,
+        url: URLbase + "/chat/fromOffers/"+chat.offerId,
         type: "GET",
         data: {},
         dataType: 'json',

@@ -165,7 +165,7 @@ module.exports = function (app, gestorBD) {
             if(conversacion == null){
                 sendError(res, 1);
             }
-            else if (chats.length !== 0) {
+            else if (conversacion.length !== 1) {
                 callback(null);
             } else {
                 callback(conversacion[0]._id);
