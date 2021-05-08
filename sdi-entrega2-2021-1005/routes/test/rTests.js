@@ -9,7 +9,7 @@ module.exports = function (app, mongo) {
         //Abrimos la conexion con mongo
         mongo.MongoClient.connect(app.get('db'), function (err, db) {
             if (err) {
-                app.get('logger').error("Error al resetear la BD: "+err);
+                app.get('logger').error("Error al resetear la BD 1: "+err);
                 res.send(String("Error al resetear la BD."));
             } else {
                 
@@ -19,7 +19,7 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 2: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
@@ -44,7 +44,7 @@ module.exports = function (app, mongo) {
                 collection.insertMany(usuarios, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 3: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else {
@@ -55,7 +55,7 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 4: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else {
@@ -129,7 +129,7 @@ module.exports = function (app, mongo) {
                 collection.insertMany(ofertas, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 5: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
@@ -141,7 +141,7 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 6: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
@@ -152,7 +152,7 @@ module.exports = function (app, mongo) {
                 collection.remove(criterio, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 7: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
@@ -160,18 +160,18 @@ module.exports = function (app, mongo) {
                 //Añadimos la conversacion
                 let oferta = ofertasInsertadas[5];
                 let offerTitle = "Titulo Oferta 6";
-                let conversacion = {
+                let conversacion = [{
                     interestedUser: pedro,
                     ownerUser: maria,
                     offerId: oferta,
                     offerTitle: offerTitle
-                }
+                }];
                 let conversacionsInsertadas = null;
                 collection = db.collection('conversaciones');
                 collection.insertMany(conversacion, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 8: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
@@ -201,7 +201,7 @@ module.exports = function (app, mongo) {
                 collection.insertMany(mensajes, function (err, result) {
                     if (err) {
                         db.close();
-                        app.get('logger').error("Error al resetear la BD: "+err);
+                        app.get('logger').error("Error al resetear la BD 9: "+err);
                         res.send(String("Error al resetear la BD."));
                     }
                     else{
