@@ -136,7 +136,7 @@ module.exports = function (app, mongo) {
                 let ofertasInsertadas = result.insertedIds;
 
                 //Eliminamos todas los chat del sistema
-                collection = db.collection('chats');
+                collection = db.collection('mensajes');
                 criterio = {};
                 collection.remove(criterio, function (err, result) {
                     if (err) {
@@ -146,36 +146,59 @@ module.exports = function (app, mongo) {
                     }
                     else{
 
-                //Añadimos las ofertas
+                //Eliminamos todas los chat del sistema
+                collection = db.collection('conversaciones');
+                criterio = {};
+                collection.remove(criterio, function (err, result) {
+                    if (err) {
+                        db.close();
+                        app.get('logger').error("Error al resetear la BD: "+err);
+                        res.send(String("Error al resetear la BD."));
+                    }
+                    else{
+
+                //Añadimos la conversacion
                 let oferta = ofertasInsertadas[5];
-                let chats =
+                let offerTitle = "Titulo Oferta 6";
+                let conversacion = {
+                    interestedUser: pedro,
+                    ownerUser: maria,
+                    offerId: oferta,
+                    offerTitle: offerTitle
+                }
+                let conversacionsInsertadas = null;
+                collection = db.collection('conversaciones');
+                collection.insertMany(conversacion, function (err, result) {
+                    if (err) {
+                        db.close();
+                        app.get('logger').error("Error al resetear la BD: "+err);
+                        res.send(String("Error al resetear la BD."));
+                    }
+                    else{
+                let conversacionsInsertadas = result.insertedIds;
+                let conversationId = conversacionsInsertadas[0];
+
+                //Añadimos los mensajes
+
+                let mensajes =
                     [{
-                        interestedUser : pedro,
-                        ownerUser : maria,
-                        writerUser : pedro,
-                        offerId : oferta,
+                        conversationId : conversationId,
                         text: "Hola, buenas. ¿Habria alguna posibilidad de que se bajara el precio?",
                         date: new Date(),
                         read: false
                     },{
-                        interestedUser : pedro,
-                        ownerUser : maria,
-                        writerUser : maria,
-                        offerId : oferta,
+                        conversationId : conversationId,
                         text: "Hola. Buenas tardes.",
                         date: new Date(),
                         read: false
                     },{
-                        interestedUser : pedro,
-                        ownerUser : maria,
-                        writerUser : maria,
-                        offerId : oferta,
+                        conversationId : conversationId,
                         text: "Lo siento mucho, pero el precio no es negociable.",
                         date: new Date(),
                         read: false
                     }];
-                collection = db.collection('chats');
-                collection.insertMany(chats, function (err, result) {
+                collection = db.collection('mensajes');
+                collection.insertMany(mensajes, function (err, result) {
                     if (err) {
                         db.close();
                         app.get('logger').error("Error al resetear la BD: "+err);
@@ -187,6 +210,8 @@ module.exports = function (app, mongo) {
                         res.send(String("Base de datos reiniciada."));
                     }
                 });
+            }});
+            }});
             }});
             }});
             }});

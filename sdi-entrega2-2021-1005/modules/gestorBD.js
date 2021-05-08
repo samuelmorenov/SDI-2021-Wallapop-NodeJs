@@ -206,16 +206,19 @@ module.exports = {
         });
     },
 
-    //CHAT
-    insertarChat: function (chat, funcionCallback) {
+
+
+    //CONVERSACIONES
+
+    insertarConversacion: function (conversacion, funcionCallback) {
         let me = this;
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 me.app.get('logger').error(err.message);
                 funcionCallback(null);
             } else {
-                let collection = db.collection('chats');
-                collection.insert(chat, function (err, result) {
+                let collection = db.collection('conversaciones');
+                collection.insert(conversacion, function (err, result) {
                     if (err) {
                         me.app.get('logger').error(err.message);
                         funcionCallback(null);
@@ -228,30 +231,6 @@ module.exports = {
         });
     },
 
-    obtenerChats: function (criterio, funcionCallback) {
-        let me = this;
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
-            if (err) {
-                me.app.get('logger').error(err.message);
-                funcionCallback(null);
-            } else {
-                let collection = db.collection('chats');
-                collection.count(function (err, count) {
-
-                    collection.find(criterio).toArray(function (err, list) {
-                        if (err) {
-                            me.app.get('logger').error(err.message);
-                            funcionCallback(null);
-                        } else {
-                            funcionCallback(list, count);
-                        }
-                        db.close();
-                    });
-                });
-            }
-        });
-    },
-
     obtenerConversaciones: function (criterio, funcionCallback) {
         let me = this;
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
@@ -259,47 +238,62 @@ module.exports = {
                 me.app.get('logger').error(err.message);
                 funcionCallback(null);
             } else {
-                let collection = db.collection('chats');
-                collection.count(function (err, count) {
-
-                    collection.distinct("offerId", criterio, function (err, list) {
-                        if (err) {
-                            me.app.get('logger').error(err.message);
-                            funcionCallback(null);
-                        } else {
-                            funcionCallback(list, count);
-                        }
-                        db.close();
-                    });
+                let collection = db.collection('conversaciones');
+                collection.find(criterio).toArray(function (err, conversaciones) {
+                    if (err) {
+                        me.app.get('logger').error(err.message);
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(conversaciones);
+                    }
+                    db.close();
                 });
             }
         });
     },
 
-    obtenerConversaciones2: function (criterio, funcionCallback) {
+    //MENSAJES
+
+    insertarMensaje: function (mensaje, funcionCallback) {
         let me = this;
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 me.app.get('logger').error(err.message);
                 funcionCallback(null);
             } else {
-                let collection = db.collection('chats');
-                collection.count(function (err, count) {
-
-                    collection.aggregate( [
-                        { $match: criterio },
-                        { $group: { _id: { offerId: "$offerId", interestedUser: "$interestedUser" } } }
-                    ], function (err, list){
-                        if (err) {
-                            me.app.get('logger').error(err.message);
-                            funcionCallback(null);
-                        } else {
-                            funcionCallback(list, count);
-                        }
-                        db.close();
-                    } );
+                let collection = db.collection('mensajes');
+                collection.insert(mensaje, function (err, result) {
+                    if (err) {
+                        me.app.get('logger').error(err.message);
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
                 });
             }
         });
     },
+
+    obtenerMesajes: function (criterio, funcionCallback) {
+        let me = this;
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                me.app.get('logger').error(err.message);
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.find(criterio).toArray(function (err, mensajes) {
+                    if (err) {
+                        me.app.get('logger').error(err.message);
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(mensajes);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
 };

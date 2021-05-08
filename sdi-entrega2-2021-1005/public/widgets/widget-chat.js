@@ -22,7 +22,7 @@ function loadChat() {
                 chatActive = false;
                 $("#tbody-chat").empty();
             }else{
-                messages = respuesta;
+                messages = respuesta.messages;
                 tableChat(messages);
             }
         },

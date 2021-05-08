@@ -2,60 +2,32 @@ module.exports = function (app, gestorBD) {
 
     app.post("/api/chat/add", function (req, res) {
         let user = null;
-        let offerObjectID = null;
+        let conversationObjectID = null;
         let texto = null;
         try {
             user = res.usuario.toString();
-            offerObjectID = gestorBD.mongo.ObjectID(req.body.offerId);
+            conversationObjectID = gestorBD.mongo.ObjectID(req.body.conversationId);
             texto = req.body.text;
         } catch (error) {
             sendError(res, 0);
         }
         app.get('logger').info(user + " ha entrado en el metodo post de /api/chat/add");
 
-        let criterioOfertas = {
-            _id: offerObjectID
-        };
+        let criterio = { _id: conversationObjectID};
 
-        //Busqueda de la oferta para toma de datos
-        gestorBD.obtenerOfertas(criterioOfertas, function (ofertas, total) {
-            if (ofertas == null){
+        gestorBD.obtenerConversaciones(criterio, function (conversacion, total) {
+            if(conversacion == null){
                 sendError(res, 1);
-            } else if(ofertas.length !== 1) {
-                sendError(res, 3);
-            } else {
-                app.get('logger').debug("Se ha obtenido la oferta con exito");
-                let oferta = ofertas[0];
-
-                //Buscamos para saber si existe un chat creado
-                let aux1 = { offerId: offerObjectID };
-                let aux2 = {  $or: [ {interestedUser: user}, {ownerUser: user},]};
-                let criterioChats = { $and: [ aux1, aux2 ] };
-
-                gestorBD.obtenerChats(criterioChats, function (chats, total) {
-                    if(chats == null){
-                        sendError(res, 1);
-                    }
-                    else if (chats.length !== 0) {
-                        app.get('logger').debug("Ya existe una conversacion anterior");
-                        addNewChat(res, offerObjectID, user, oferta.creator,user, texto);
-                    } else {
-                        app.get('logger').debug("No existe el chat creado");
-
-                        if(oferta.creator === user){
-                            app.get('logger').error("El usuario es el creador de la oferta no puede crear un chat");
-                            sendError(res, 4);
-                        }
-                        else{
-                            app.get('logger').debug("El usuario no es el creador de la oferta, se procede a crear un chat");
-                            addNewChat(res, offerObjectID, user, oferta.creator,user, texto);
-                        }
-                    }
-                });
+            }
+            else if (chats.length !== 0) {
+                addNewMessage(res, conversationObjectID, texto);
             }
         });
+
+
     });
 
+    /*
     app.get("/api/chat/conversations", function (req, res) {
         var user = null;
         try {
@@ -91,8 +63,9 @@ module.exports = function (app, gestorBD) {
             }
         });
     });
+    */
 
-    app.get("/api/chat/:id", function (req, res) {
+    app.get("/api/chat/fromOffers/:id", function (req, res) {
         let user = null;
         let offerObjectID = null;
         try {
@@ -103,47 +76,102 @@ module.exports = function (app, gestorBD) {
         }
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+offerObjectID);
 
-        let aux1 = { offerId: offerObjectID };
-        let aux2 = {  $or: [ {interestedUser: user}, {ownerUser: user},]};
-        let criterioChats = { $and: [ aux1, aux2 ] };
-        gestorBD.obtenerChats(criterioChats, function (chats, total) {
-            if (chats == null) {
+        //Si existe oferta
+        let criterio = {"_id": offerObjectID};
+        gestorBD.obtenerOfertas(criterio,function (ofertas, total) {
+            if (ofertas == null) {
                 sendError(res, 1);
-            } else if(chats.length === 0){
-                sendError(res, 3);
-            }else {
-
-                app.get('logger').debug("Se han encontrado un total de mensajes de = "+chats.length);
-                res.status(200);
-                res.send(JSON.stringify(chats));
+            } else {
+                existeConversacion(res, offerObjectID, user, function (conversationId){
+                    //Si existe conversacion
+                    if(conversationId != null){
+                        //Buscar mensajes
+                        getMessages(res, conversationId, ofertas[0].ownerUser, ofertas[0].title);
+                    }
+                    //Si no existe conversacion
+                    else{
+                        //Crear conversacion
+                        addNewConversation(res, user, ofertas[0].ownerUser, offerObjectID, ofertas[0].title, function (){
+                            //Buscar mensajes
+                            getMessages(res, conversationId, ofertas[0].ownerUser, ofertas[0].title);
+                        });
+                    }
+                });
             }
         });
     });
 
-
-
-    function addNewChat(res, offerId, interestedUser, ownerUser, user, text){
-        let chat = {
-            interestedUser : interestedUser,
-            ownerUser : ownerUser,
-            writerUser : user,
-            offerId : gestorBD.mongo.ObjectID(offerId),
+    function addNewMessage(res, conversationId, text) {
+        let message = {
+            conversationId: conversationId,
             text: text,
             date: new Date(),
             read: false
         }
 
-        gestorBD.insertarChat(chat, function (chatId) {
-            if(chatId == null){
-                sendError(res, 2);
-            } else{
-                app.get('logger').debug("Mensaje creado con exito, offerId = "+offerId+", ID creado = "+chatId);
+        gestorBD.insertarMensaje(message, function (messageId) {
+            if (messageId == null) {
+                sendError(res, 1);
+            } else {
+                app.get('logger').debug("Mensaje creado con exito, ID creado = " +messageId);
                 res.status(201);
                 res.json({mensaje: "Mensaje enviado"});
             }
         });
     }
 
+    function addNewConversation(res, interestedUser, ownerUser, offerId, offerTitle, callback){
+        let conversacion = {
+            interestedUser: interestedUser,
+            ownerUser: ownerUser,
+            offerId: gestorBD.mongo.ObjectID(offerId),
+            offerTitle: offerTitle
+        }
+        gestorBD.insertarConversacion(conversacion, function (conversacionId) {
+            if (conversacionId == null) {
+                sendError(res, 2);
+            } else {
+                app.get('logger').debug("Nueva conversacion creada: "+conversacionId);
+                callback(conversacionId);
+            }
+        });
+    }
+
+    function getMessages(res, conversationId, ownerUser, offerTitle){
+
+        let criterioMensajes = { conversationId : conversationId };
+
+        gestorBD.obtenerMesajes(criterioMensajes, function (mensajes) {
+            if (mensajes == null) {
+                sendError(res, 1);
+            } else {
+                app.get('logger').debug("Se han encontrado un total de mensajes de = "+mensajes.length);
+
+                let answer = {
+                    ownerUser: ownerUser,
+                    offerTitle : offerTitle,
+                    messages : JSON.stringify(mensajes)
+                }
+                res.status(200);
+                res.send(answer);
+            }
+        });
+    }
+
+    function existeConversacion(res, offerObjectID, ownerUser, callback){
+        let criterio = { offerId: offerObjectID, ownerUser: ownerUser };
+
+        gestorBD.obtenerConversaciones(criterio, function (conversacion, total) {
+            if(conversacion == null){
+                sendError(res, 1);
+            }
+            else if (chats.length !== 0) {
+                callback(null);
+            } else {
+                callback(conversacion[0]._id);
+            }
+        });
+    }
 
     function sendError(res, cod){
         let error = '';
