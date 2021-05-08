@@ -9,11 +9,7 @@ module.exports = function (app, gestorBD) {
             offerObjectID = gestorBD.mongo.ObjectID(req.body.offerId);
             texto = req.body.text;
         } catch (error) {
-            app.get('logger').error("Error al obtener los parametros en /api/chat/add");
-            res.status(500); //TODO: Revisar tipo
-            res.json({
-                error: "Error al cargar los datos"
-            });
+            sendError(res, 0);
         }
         app.get('logger').info(user + " ha entrado en el metodo post de /api/chat/add");
 
@@ -23,12 +19,10 @@ module.exports = function (app, gestorBD) {
 
         //Busqueda de la oferta para toma de datos
         gestorBD.obtenerOfertas(criterioOfertas, function (ofertas, total) {
-            if (ofertas == null || ofertas.length !== 1) {
-                app.get('logger').error("BD: Error al obtener la lista de ofertas");
-                res.status(500); //TODO: Revisar tipo
-                res.json({
-                    error: "Error al obtener la lista de ofertas"
-                });
+            if (ofertas == null){
+                sendError(res, 1);
+            } else if(ofertas.length !== 1) {
+                sendError(res, 3);
             } else {
                 app.get('logger').debug("Se ha obtenido la oferta con exito");
                 let oferta = ofertas[0];
@@ -40,11 +34,7 @@ module.exports = function (app, gestorBD) {
 
                 gestorBD.obtenerChats(criterioChats, function (chats, total) {
                     if(chats == null){
-                        app.get('logger').error("Error al obtener el chat");
-                        res.status(500); //TODO: Revisar tipo
-                        res.json({
-                            error: "Error al crear el chat"
-                        });
+                        sendError(res, 1);
                     }
                     else if (chats.length !== 0) {
                         app.get('logger').debug("Ya existe una conversacion anterior");
@@ -54,10 +44,7 @@ module.exports = function (app, gestorBD) {
 
                         if(oferta.creator === user){
                             app.get('logger').error("El usuario es el creador de la oferta no puede crear un chat");
-                            res.status(500); //TODO: Revisar tipo
-                            res.json({
-                                error: "Error al crear el chat"
-                            });
+                            sendError(res, 4);
                         }
                         else{
                             app.get('logger').debug("El usuario no es el creador de la oferta, se procede a crear un chat");
@@ -74,22 +61,14 @@ module.exports = function (app, gestorBD) {
         try {
             user = res.usuario.toString();
         } catch (error) {
-            app.get('logger').error("Error al obtener los parametros en /api/chat/conversations");
-            res.status(500); //TODO: Revisar tipo
-            res.json({
-                error: "Error al cargar los datos"
-            });
+            sendError(res, 0);
         }
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversations");
 
         let criterio = {  $or: [ {interestedUser: user}, {ownerUser: user},]};
         gestorBD.obtenerConversaciones2(criterio, function (result, total) {
             if (result == null) {
-                app.get('logger').error("BD: Error al obtener el chat");
-                res.status(500); //TODO: Revisar tipo
-                res.json({
-                    error: "Error al obtener el chat"
-                });
+                sendError(res, 1);
             } else {
                 let idOfertas = new Array(result.length);
                 for(let i = 0; i < result.length; i++){
@@ -101,11 +80,7 @@ module.exports = function (app, gestorBD) {
 
                 gestorBD.obtenerOfertas(criterio,function (ofertas, total) {
                     if (ofertas == null) {
-                        app.get('logger').error("BD: Error al obtener la lista de ofertas");
-                        res.status(500);//TODO: Revisar tipo
-                        res.json({
-                            error: "Error al obtener la lista de ofertas"
-                        });
+                        sendError(res, 1);
                     } else {
                         app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+total);
 
@@ -124,11 +99,7 @@ module.exports = function (app, gestorBD) {
             user = res.usuario.toString();
             offerObjectID = gestorBD.mongo.ObjectID(req.params.id);
         } catch (error) {
-            app.get('logger').error("Error al obtener los parametros en /api/chat/");
-            res.status(500); //TODO: Revisar tipo
-            res.json({
-                error: "Error al cargar los datos"
-            });
+            sendError(res, 0);
         }
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+offerObjectID);
 
@@ -137,17 +108,9 @@ module.exports = function (app, gestorBD) {
         let criterioChats = { $and: [ aux1, aux2 ] };
         gestorBD.obtenerChats(criterioChats, function (chats, total) {
             if (chats == null) {
-                app.get('logger').error("BD: Error al obtener el chat");
-                res.status(500); //TODO: Revisar tipo
-                res.json({
-                    error: "Error al obtener el chat"
-                });
+                sendError(res, 1);
             } else if(chats.length === 0){
-                app.get('logger').debug("No existen chats con offerId = "+offerObjectID);
-                res.status(500); //TODO: Revisar tipo
-                res.json({
-                    error: "No existe un chat anterior."
-                });
+                sendError(res, 3);
             }else {
 
                 app.get('logger').debug("Se han encontrado un total de mensajes de = "+chats.length);
@@ -172,16 +135,35 @@ module.exports = function (app, gestorBD) {
 
         gestorBD.insertarChat(chat, function (chatId) {
             if(chatId == null){
-                app.get('logger').error("BD: Error al crear el chat");
-                res.status(500); //TODO: Revisar tipo
-                res.json({
-                    error: "Error al crear el chat"
-                });
+                sendError(res, 2);
             } else{
                 app.get('logger').debug("Mensaje creado con exito, offerId = "+offerId+", ID creado = "+chatId);
                 res.status(201);
                 res.json({mensaje: "Mensaje enviado"});
             }
+        });
+    }
+
+
+    function sendError(res, cod){
+        let error = '';
+        switch (cod) {
+            case 0:
+                error = 'Parametros de la consulta erroneos';
+            case 1:
+                error = 'Error de acceso a la base de datos';
+            case 2:
+                error = 'Error al crear en la base de datos';
+            case 3:
+                error = 'Lista vacia';
+            case 4:
+                error = 'Error de logica de negocio';
+        }
+
+        app.get('logger').error(error);
+        res.status(500); //TODO: Revisar
+        res.json({
+            error: error
         });
     }
 }

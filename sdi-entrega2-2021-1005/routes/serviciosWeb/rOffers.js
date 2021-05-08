@@ -18,7 +18,7 @@ module.exports = function (app, gestorBD) {
                     error: "Error al obtener la lista de ofertas"
                 });
             } else {
-                app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+total);
+                app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+ofertas.length);
 
                 res.status(200);
                 res.send(JSON.stringify(ofertas));
