@@ -147,21 +147,32 @@ module.exports = function (app, gestorBD) {
 
     function sendError(res, cod){
         let error = '';
+        let codigo = 500
         switch (cod) {
             case 0:
                 error = 'Parametros de la consulta erroneos';
+                codigo = 400; //Bad Request
+                break;
             case 1:
                 error = 'Error de acceso a la base de datos';
+                codigo = 500;
+                break;
             case 2:
                 error = 'Error al crear en la base de datos';
+                codigo = 500;
+                break;
             case 3:
                 error = 'Lista vacia';
+                codigo = 404;
+                break;
             case 4:
                 error = 'Error de logica de negocio';
+                codigo = 409; //Conflict
+                break;
         }
 
         app.get('logger').error(error);
-        res.status(500); //TODO: Revisar
+        res.status(codigo);
         res.json({
             error: error
         });
