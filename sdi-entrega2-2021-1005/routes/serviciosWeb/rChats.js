@@ -20,7 +20,7 @@ module.exports = function (app, gestorBD) {
                 sendError(res, 1);
             }
             else if (chats.length !== 0) {
-                addNewMessage(res, conversationObjectID, texto);
+                addNewMessage(res, conversationObjectID, texto, user);
             }
         });
 
@@ -101,12 +101,13 @@ module.exports = function (app, gestorBD) {
         });
     });
 
-    function addNewMessage(res, conversationId, text) {
+    function addNewMessage(res, conversationId, text, user) {
         let message = {
             conversationId: conversationId,
             text: text,
             date: new Date(),
-            read: false
+            read: false,
+            writerUser : user
         }
 
         gestorBD.insertarMensaje(message, function (messageId) {
@@ -150,24 +151,26 @@ module.exports = function (app, gestorBD) {
                 let answer = {
                     ownerUser: ownerUser,
                     offerTitle : offerTitle,
-                    messages : JSON.stringify(mensajes)
+                    messages : mensajes
                 }
                 res.status(200);
-                res.send(answer);
+                res.send(JSON.stringify(answer));
             }
         });
     }
 
-    function existeConversacion(res, offerObjectID, ownerUser, callback){
-        let criterio = { offerId: offerObjectID, ownerUser: ownerUser };
+    function existeConversacion(res, offerObjectID, interestedUser, callback){
+        let criterio = { offerId: offerObjectID, interestedUser: interestedUser };
 
         gestorBD.obtenerConversaciones(criterio, function (conversacion, total) {
             if(conversacion == null){
                 sendError(res, 1);
             }
             else if (conversacion.length !== 1) {
+                app.get('logger').debug("Conversaciones obtenidas para esa offerta y usuario: "+conversacion.length);
                 callback(null);
             } else {
+                app.get('logger').debug("Conversacion para esa offerta y usuario encontrada.");
                 callback(conversacion[0]._id);
             }
         });

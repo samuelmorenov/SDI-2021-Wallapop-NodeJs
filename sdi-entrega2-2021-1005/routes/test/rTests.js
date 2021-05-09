@@ -185,17 +185,20 @@ module.exports = function (app, mongo) {
                         conversationId : conversationId,
                         text: "Hola, buenas. ¿Habria alguna posibilidad de que se bajara el precio?",
                         date: new Date(),
-                        read: false
+                        read: false,
+                        writerUser : pedro
                     },{
                         conversationId : conversationId,
                         text: "Hola. Buenas tardes.",
                         date: new Date(),
-                        read: false
+                        read: false,
+                        writerUser : maria
                     },{
                         conversationId : conversationId,
                         text: "Lo siento mucho, pero el precio no es negociable.",
                         date: new Date(),
-                        read: false
+                        read: false,
+                        writerUser : maria
                     }];
                 collection = db.collection('mensajes');
                 collection.insertMany(mensajes, function (err, result) {
