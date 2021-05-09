@@ -1,12 +1,14 @@
 window.history.pushState("", "", "/cliente.html?w=chat");
 
 var me = this;
+me.conversationId = null;
+
 me.loadChat()
 me.setInterval(function(){
     if(chatActive){
         me.loadChat() // this will run after every 1 seconds
     }
-}, 5000);
+}, 2000);
 
 function loadChat() {
     $.ajax({
@@ -16,14 +18,24 @@ function loadChat() {
         dataType: 'json',
         headers: {"token": token},
         success: function (respuesta) {
-            console.log("success");
             $("#tbody-chat").empty();
-            if(respuesta == null || respuesta.messages == null || respuesta.messageslength == 0){
-                chatActive = false;
-                $("#tbody-chat").empty();
-            }else{
-                messages = respuesta.messages;
-                tableChat(messages);
+            $("#h2-tittle").empty();
+            chatActive = false;
+
+            if(respuesta != null){
+                if(respuesta.messages != null && respuesta.messages.length != 0){
+                    chatActive = true;
+                    messages = respuesta.messages;
+                    tableChat(messages);
+                }
+                if(respuesta.conversationId != null){
+                    me.conversationId = respuesta.conversationId;
+                }
+                if(respuesta.ownerUser != null && respuesta.offerTitle != null){
+                    let title = respuesta.offerTitle;
+                    let propietario = respuesta.ownerUser;
+                    $("#h2-tittle").append("Chat de la oferta: " + title + ", propiedad del usuario: " + propietario);
+                }
             }
         },
         error: function (error) {
@@ -57,13 +69,12 @@ $('#button-chat').click(function () {
     if (inputChat == null || inputChat == "") {
         return;
     }
-    var offerId = chat.offerId;
 
     $.ajax({
         url: URLbase + "/chat/add",
         type: "POST",
         data: {
-            offerId: offerId,
+            conversationId: me.conversationId,
             text: inputChat
         },
         dataType: 'json',

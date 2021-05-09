@@ -19,7 +19,7 @@ module.exports = function (app, gestorBD) {
             if(conversacion == null){
                 sendError(res, 1);
             }
-            else if (chats.length !== 0) {
+            else if (conversacion.length !== 0) {
                 addNewMessage(res, conversationObjectID, texto, user);
             }
         });
@@ -81,19 +81,21 @@ module.exports = function (app, gestorBD) {
         gestorBD.obtenerOfertas(criterio,function (ofertas, total) {
             if (ofertas == null) {
                 sendError(res, 1);
-            } else {
+            } if(ofertas.length != 1){
+                sendError(res, 3);
+            }else {
                 existeConversacion(res, offerObjectID, user, function (conversationId){
                     //Si existe conversacion
                     if(conversationId != null){
                         //Buscar mensajes
-                        getMessages(res, conversationId, ofertas[0].ownerUser, ofertas[0].title);
+                        getMessages(res, conversationId, ofertas[0].creator, ofertas[0].title);
                     }
                     //Si no existe conversacion
                     else{
                         //Crear conversacion
-                        addNewConversation(res, user, ofertas[0].ownerUser, offerObjectID, ofertas[0].title, function (){
+                        addNewConversation(res, user, ofertas[0].creator, offerObjectID, ofertas[0].title, function (){
                             //Buscar mensajes
-                            getMessages(res, conversationId, ofertas[0].ownerUser, ofertas[0].title);
+                            getMessages(res, conversationId, ofertas[0].creator, ofertas[0].title);
                         });
                     }
                 });
@@ -149,9 +151,10 @@ module.exports = function (app, gestorBD) {
                 app.get('logger').debug("Se han encontrado un total de mensajes de = "+mensajes.length);
 
                 let answer = {
-                    ownerUser: ownerUser,
                     offerTitle : offerTitle,
-                    messages : mensajes
+                    conversationId : conversationId,
+                    messages : mensajes,
+                    ownerUser: ownerUser,
                 }
                 res.status(200);
                 res.send(JSON.stringify(answer));

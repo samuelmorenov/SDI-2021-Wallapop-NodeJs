@@ -25,6 +25,8 @@ public class EjercicioC03_Tests extends BaseTestsApi {
 		
 		String message = "Hola, ¿hay alguna posibilidad de bajar el precio?";
 		
+		PO_View.checkText("Chat de la oferta:");
+		
 		PO_ChatView.sendMessage(message);
 
 		PO_View.checkText(message);
@@ -43,11 +45,12 @@ public class EjercicioC03_Tests extends BaseTestsApi {
 		PO_Click.clickClass("btn btn-default chat", 2);
 		
 		String message = "Ok, muchas gracias.";
-		PO_ChatView.sendMessage(message);
-
+		PO_View.checkText("Chat de la oferta:");
 		PO_View.checkText("Hola, buenas. ¿Habria alguna posibilidad de que se bajara el precio?");
 		PO_View.checkText("Hola. Buenas tardes.");
 		PO_View.checkText("Lo siento mucho, pero el precio no es negociable.");
+		
+		PO_ChatView.sendMessage(message);
 		PO_View.checkText(message);
 	}
 
