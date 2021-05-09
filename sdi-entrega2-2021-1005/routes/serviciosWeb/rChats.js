@@ -93,7 +93,7 @@ module.exports = function (app, gestorBD) {
                     //Si no existe conversacion
                     else{
                         //Crear conversacion
-                        addNewConversation(res, user, ofertas[0].creator, offerObjectID, ofertas[0].title, function (){
+                        addNewConversation(res, user, ofertas[0].creator, offerObjectID, ofertas[0].title, function (conversationId){
                             //Buscar mensajes
                             getMessages(res, conversationId, ofertas[0].creator, ofertas[0].title);
                         });

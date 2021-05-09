@@ -80,7 +80,7 @@ $('#button-chat').click(function () {
         dataType: 'json',
         headers: {"token": token},
         success: function (respuesta) {
-            chatActive = true;
+            chatActive = false;
             $("#contenedor-principal").load("widgets/widget-chat.html");
         },
         error: function (error) {
