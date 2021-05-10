@@ -59,7 +59,7 @@ module.exports = function (app, gestorBD) {
         } catch (error) {
             sendError(res, 0);
         }
-        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/"+offerObjectID);
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/fromOffers/"+offerObjectID);
 
         //Si existe oferta
         let criterio = {"_id": offerObjectID};
@@ -86,6 +86,35 @@ module.exports = function (app, gestorBD) {
                 });
             }
         });
+    });
+
+    app.get("/api/chat/fromConversations/:id", function (req, res) {
+        let user = null;
+        let conversationObjectID = null;
+        try {
+            user = res.usuario.toString();
+            conversationId = gestorBD.mongo.ObjectID(req.params.id);
+        } catch (error) {
+            sendError(res, 0);
+        }
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/fromConversations/"+conversationId);
+
+        let criterio = { _id: conversationId };
+
+        gestorBD.obtenerConversaciones(criterio, function (conversacion) {
+            if(conversacion == null){
+                sendError(res, 1);
+            }
+            else if (conversacion.length !== 1) {
+                app.get('logger').debug("Conversaciones obtenidas para esa offerta y usuario: "+conversacion.length);
+                callback(null);
+            } else {
+                let c = conversacion[0];
+
+                getMessages(res, conversationId, c.ownerUser, c.offerTitle)
+            }
+        });
+
     });
 
     function addNewMessage(res, conversationId, text, user) {

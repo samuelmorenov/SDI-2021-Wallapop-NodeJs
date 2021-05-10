@@ -11,8 +11,20 @@ me.setInterval(function(){
 }, 2000);
 
 function loadChat() {
+
+    let id = '';
+    let url = '';
+    if(chat.offerId != null){
+        url = 'fromOffers';
+        id = chat.offerId;
+    }
+    if(chat.conversationId != null){
+        url = 'fromConversations';
+        id = chat.conversationId;
+    }
+
     $.ajax({
-        url: URLbase + "/chat/fromOffers/"+chat.offerId,
+        url: URLbase + "/chat/"+url+"/"+id,
         type: "GET",
         data: {},
         dataType: 'json',
@@ -23,10 +35,12 @@ function loadChat() {
             chatActive = false;
 
             if(respuesta != null){
-                if(respuesta.messages != null && respuesta.messages.length != 0){
+                if(respuesta.messages != null){
                     chatActive = true;
-                    messages = respuesta.messages;
-                    tableChat(messages);
+                    if(respuesta.messages.length != 0){
+                        messages = respuesta.messages;
+                        tableChat(messages);
+                    }
                 }
                 if(respuesta.conversationId != null){
                     me.conversationId = respuesta.conversationId;

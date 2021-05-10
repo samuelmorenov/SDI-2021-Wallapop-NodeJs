@@ -46,5 +46,10 @@ function createButton(conversation) {
 }
 
 function chat(id) {
-
+    chat = {
+        offerId : null,
+        conversationId : id
+    };
+    chatActive = true;
+    $("#contenedor-principal").load("widgets/widget-chat.html");
 }

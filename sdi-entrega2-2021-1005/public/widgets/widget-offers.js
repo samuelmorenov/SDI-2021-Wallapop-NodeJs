@@ -49,7 +49,8 @@ function createButton(offers) {
 
 function chat(id) {
     chat = {
-        offerId : id
+        offerId : id,
+        conversationId : null
     };
     chatActive = true;
     $("#contenedor-principal").load("widgets/widget-chat.html");
