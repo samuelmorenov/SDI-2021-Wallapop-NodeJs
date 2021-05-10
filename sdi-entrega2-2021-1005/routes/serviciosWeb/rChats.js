@@ -27,7 +27,7 @@ module.exports = function (app, gestorBD) {
 
     });
 
-    /*
+
     app.get("/api/chat/conversations", function (req, res) {
         var user = null;
         try {
@@ -38,32 +38,17 @@ module.exports = function (app, gestorBD) {
         app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/conversations");
 
         let criterio = {  $or: [ {interestedUser: user}, {ownerUser: user},]};
-        gestorBD.obtenerConversaciones2(criterio, function (result, total) {
-            if (result == null) {
+        gestorBD.obtenerConversaciones(criterio, function (conversaciones) {
+            if(conversaciones == null){
                 sendError(res, 1);
-            } else {
-                let idOfertas = new Array(result.length);
-                for(let i = 0; i < result.length; i++){
-                    idOfertas[i] = result[i]._id.offerId;
-                }
-                let criterio = {
-                    offerId: { $in: idOfertas }
-                };
-
-                gestorBD.obtenerOfertas(criterio,function (ofertas, total) {
-                    if (ofertas == null) {
-                        sendError(res, 1);
-                    } else {
-                        app.get('logger').debug("Se ha obtenido la lista de ofertas con exito: "+total);
-
-                        res.status(200);
-                        res.send(JSON.stringify(ofertas));
-                    }
-                });
+            }
+            else {
+                app.get('logger').debug("Se han encontrado un total de conversaciones de = "+conversaciones.length);
+                res.status(200);
+                res.send(JSON.stringify(conversaciones));
             }
         });
     });
-    */
 
     app.get("/api/chat/fromOffers/:id", function (req, res) {
         let user = null;

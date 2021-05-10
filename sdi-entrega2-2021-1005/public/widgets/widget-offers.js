@@ -10,9 +10,8 @@ function loadOffers() {
         dataType: 'json',
         headers: {"token": token},
         success: function (respuesta) {
-            offers = respuesta;
             chatActive = false;
-            offersTable(offers);
+            offersTable(respuesta);
         },
         error: function (error) {
             console.log("error");

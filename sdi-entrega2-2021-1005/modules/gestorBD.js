@@ -152,14 +152,14 @@ module.exports = {
                         me.app.get('logger').error(err.message);
                         funcionCallback(null);
                     } else {
-                        funcionCallback(list, count);
+                        funcionCallback(list);
                     }
                     db.close();
                 });
             }
         });
     },
-    
+
     modificarOferta: function (criterio, oferta, funcionCallback) {
         let me = this;
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
