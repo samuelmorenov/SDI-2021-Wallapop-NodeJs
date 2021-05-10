@@ -25,7 +25,8 @@ import com.uniovi.tests.ejercicios.*;
 	EjercicioC01_Tests.class,
 	EjercicioC02_Tests.class,
 	EjercicioC03_Tests.class,
-	EjercicioC04_Tests.class
+	EjercicioC04_Tests.class,
+	EjercicioC05_Tests.class
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SdiEntrega220211005ApplicationTests {
