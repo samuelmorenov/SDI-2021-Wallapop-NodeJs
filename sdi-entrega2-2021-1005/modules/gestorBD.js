@@ -246,6 +246,27 @@ module.exports = {
         });
     },
 
+    borrarConversaciones: function (criterio, funcionCallback) {
+        let me = this;
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                me.app.get('logger').error(err.message);
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('conversaciones');
+                collection.remove(criterio, function (err, result) {
+                    if (err) {
+                        me.app.get('logger').error(err.message);
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
     //MENSAJES
 
     insertarMensaje: function (mensaje, funcionCallback) {
@@ -283,6 +304,27 @@ module.exports = {
                         funcionCallback(null);
                     } else {
                         funcionCallback(mensajes);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+
+    borrarMensajes: function (criterio, funcionCallback) {
+        let me = this;
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                me.app.get('logger').error(err.message);
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.remove(criterio, function (err, result) {
+                    if (err) {
+                        me.app.get('logger').error(err.message);
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
                     }
                     db.close();
                 });

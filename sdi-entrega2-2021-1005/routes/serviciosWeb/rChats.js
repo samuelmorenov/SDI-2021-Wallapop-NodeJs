@@ -117,6 +117,56 @@ module.exports = function (app, gestorBD) {
 
     });
 
+    app.post("/api/chat/eliminar", function (req, res) {
+        var user = null;
+        var conversationObjectID = null;
+        try {
+            user = res.usuario.toString();
+            conversationObjectID = gestorBD.mongo.ObjectID(req.body.conversationId);
+        } catch (error) {
+            sendError(res, 0);
+        }
+
+        app.get('logger').info(user + " ha entrado en el metodo get de /api/chat/eliminar");
+
+        let criterio = { _id: conversationObjectID };
+
+        gestorBD.obtenerConversaciones(criterio, function (conversaciones) {
+            if(conversaciones == null){
+                sendError(res, 1);
+            }
+            else if (conversaciones.length !== 1) {
+                app.get('logger').debug("Conversaciones obtenidas para esa offerta y usuario: "+conversaciones.length);
+                callback(null);
+            } else {
+                let conversacion = conversaciones[0];
+
+                if(conversacion.ownerUser != user && conversacion.interestedUser != user){
+                    sendError(res, 4);
+                } else{
+
+                    let criterioMensajes = { conversationId: conversationObjectID };
+                    gestorBD.borrarMensajes(criterioMensajes, function (result) {
+                        if (result == null) {
+                            sendError(res, 1);
+                        } else {
+                            let criterioConversaciones = { _id: conversationObjectID };
+                            gestorBD.borrarConversaciones(criterioConversaciones, function (result) {
+                                if (result == null) {
+                                    sendError(res, 1);
+                                } else {
+                                    app.get('logger').debug("Conversacion eliminada exito, ID = " +conversationObjectID);
+                                    res.status(201);
+                                    res.json({mensaje: "Conversacion eliminada exito"});
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
+
     function addNewMessage(res, conversationId, text, user) {
         let message = {
             conversationId: conversationId,
