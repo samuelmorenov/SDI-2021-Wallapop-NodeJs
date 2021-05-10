@@ -158,15 +158,17 @@ module.exports = function (app, mongo) {
                     else{
 
                 //Añadimos la conversacion
-                let oferta = ofertasInsertadas[5];
-                let offerTitle = "Titulo Oferta 6";
                 let conversacion = [{
                     interestedUser: pedro,
                     ownerUser: maria,
-                    offerId: oferta,
-                    offerTitle: offerTitle
+                    offerId: ofertasInsertadas[5],
+                    offerTitle: "Titulo Oferta 6"
+                },{
+                    interestedUser: pedro,
+                    ownerUser: maria,
+                    offerId: ofertasInsertadas[6],
+                    offerTitle: "Titulo Oferta 7"
                 }];
-                let conversacionsInsertadas = null;
                 collection = db.collection('conversaciones');
                 collection.insertMany(conversacion, function (err, result) {
                     if (err) {
@@ -177,6 +179,7 @@ module.exports = function (app, mongo) {
                     else{
                 let conversacionsInsertadas = result.insertedIds;
                 let conversationId = conversacionsInsertadas[0];
+                let conversationId2 = conversacionsInsertadas[1];
 
                 //Añadimos los mensajes
 
@@ -199,6 +202,12 @@ module.exports = function (app, mongo) {
                         date: new Date(),
                         read: false,
                         writerUser : maria
+                    },{
+                        conversationId : conversationId2,
+                        text: "Hola, buenas. ¿Habria alguna posibilidad de que se bajara el precio?",
+                        date: new Date(),
+                        read: false,
+                        writerUser : pedro
                     }];
                 collection = db.collection('mensajes');
                 collection.insertMany(mensajes, function (err, result) {
