@@ -147,23 +147,19 @@ module.exports = {
                 funcionCallback(null);
             } else {
                 let collection = db.collection('ofertas');
-                collection.count(function (err, count) {
-
-                    collection.find(criterio).toArray(function (err, list) {
-                        if (err) {
-                            me.app.get('logger').error(err.message);
-                            funcionCallback(null);
-                        } else {
-                            funcionCallback(list, count);
-                        }
-                        db.close();
-                    });
+                collection.find(criterio).toArray(function (err, list) {
+                    if (err) {
+                        me.app.get('logger').error(err.message);
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(list, count);
+                    }
+                    db.close();
                 });
             }
         });
     },
-
-
+    
     modificarOferta: function (criterio, oferta, funcionCallback) {
         let me = this;
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
@@ -205,8 +201,6 @@ module.exports = {
             }
         });
     },
-
-
 
     //CONVERSACIONES
 
@@ -295,5 +289,4 @@ module.exports = {
             }
         });
     },
-
 };

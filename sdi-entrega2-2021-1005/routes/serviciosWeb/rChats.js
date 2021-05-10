@@ -15,7 +15,7 @@ module.exports = function (app, gestorBD) {
 
         let criterio = { _id: conversationObjectID};
 
-        gestorBD.obtenerConversaciones(criterio, function (conversacion, total) {
+        gestorBD.obtenerConversaciones(criterio, function (conversacion) {
             if(conversacion == null){
                 sendError(res, 1);
             }
@@ -165,7 +165,7 @@ module.exports = function (app, gestorBD) {
     function existeConversacion(res, offerObjectID, interestedUser, callback){
         let criterio = { offerId: offerObjectID, interestedUser: interestedUser };
 
-        gestorBD.obtenerConversaciones(criterio, function (conversacion, total) {
+        gestorBD.obtenerConversaciones(criterio, function (conversacion) {
             if(conversacion == null){
                 sendError(res, 1);
             }
