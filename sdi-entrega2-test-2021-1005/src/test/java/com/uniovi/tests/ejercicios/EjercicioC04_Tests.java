@@ -1,11 +1,11 @@
 package com.uniovi.tests.ejercicios;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.uniovi.tests.data.DataList;
+import com.uniovi.tests.pageobjects.PO_Click;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.formularios.PO_LoginView;
 
@@ -20,8 +20,10 @@ public class EjercicioC04_Tests extends BaseTestsApi {
 	public void Prueba_36() {
 		PO_LoginView.loginApiUser0();
 		PO_View.checkText(login_correcto);
-
-		assertTrue(false); // TODO
-
+		
+		PO_Click.clickText("Conversaciones");
+		PO_View.checkText(conversaciones_correcto);
+		PO_View.checkText(DataList.usuarios(1).email);
+		PO_View.checkText(DataList.ofertas(5).title);
 	}
 }

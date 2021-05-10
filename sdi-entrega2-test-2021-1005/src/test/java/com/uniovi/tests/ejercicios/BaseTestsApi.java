@@ -15,6 +15,7 @@ public class BaseTestsApi {
 	//Parametros de busqueda de textos
 	protected static final String login_correcto = "Lista de ofertas";
 	protected static final String login_incorrecto = "La combinacion usuario-contraseña es incorrecta.";
+	protected static final String conversaciones_correcto = "Lista de Conversaciones";
 
 	// Antes de cada prueba se navega al URL home de la aplicaciónn
 	@Before
