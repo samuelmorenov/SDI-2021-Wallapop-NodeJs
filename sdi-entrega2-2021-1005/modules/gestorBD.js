@@ -123,7 +123,7 @@ module.exports = {
                 funcionCallback(null);
             } else {
                 let collection = db.collection('ofertas');
-                collection.count(function (err, count) {
+                collection.find(criterio).count(function (err, count) {
                     collection.find(criterio).skip((pg - 1) * unitsPerPage).limit(unitsPerPage)
                         .toArray(function (err, list) {
                             if (err) {

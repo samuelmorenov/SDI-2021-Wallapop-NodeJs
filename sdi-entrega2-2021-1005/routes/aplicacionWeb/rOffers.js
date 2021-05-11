@@ -62,7 +62,7 @@ module.exports = function (app, swig, gestorBD) {
         app.get('logger').info(req.session.usuario.email+" ha entrado en el metodo get de /offer/all");
         let url = 'views/offer/all.html';
 
-        let unitsPerPage = 100;
+        let unitsPerPage = 10;
         let criterio = {};
 
         let busquedaTextV0 = req.query.searchText;
@@ -113,6 +113,7 @@ module.exports = function (app, swig, gestorBD) {
                         offers: ofertas,
                         paginas: paginas,
                         actual: pg,
+                        searchText: busquedaTextV0
                     });
                 res.send(respuesta);
             }
