@@ -148,6 +148,12 @@ require("./routes/serviciosWeb/rChats")(app, gestorBD);
 // Rutas para los Test
 require("./routes/test/rTests.js")(app, mongo);
 
+// Controlador de errores personalizado
+app.use(function(req, res, next) {
+    req.session.error = "La página solicitada no esta disponible";
+    res.redirect("/error");
+});
+
 // Arrancamos el servidor
 let fs = require('fs');
 let https = require('https');
